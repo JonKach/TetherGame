@@ -1,5 +1,6 @@
 package org.cis1200.tether;
 
+import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.world.World;
 
 import javax.swing.*;
@@ -19,10 +20,29 @@ public class RunTether implements Runnable {
         final JLabel status = new JLabel("Running...");
         status_panel.add(status);
 
-        // Main playing area
-        final World world = new World("files/level_1.txt");
-        frame.add(world, BorderLayout.CENTER);
+        JPanel containerPanel = new JPanel();
+        containerPanel.setBackground(new Color(135, 206, 235));
+        containerPanel.setLayout(new OverlayLayout(containerPanel));
 
+        final UIView ui = new UIView();
+        ui.setPreferredSize(new Dimension(1000, 500));
+        ui.setAlignmentX(0.5f);
+        ui.setAlignmentY(0.5f);
+
+        final World world = new World("files/level_1.txt");
+        world.setPreferredSize(new Dimension(1000, 500));
+        world.setAlignmentX(0.5f);
+        world.setAlignmentY(0.5f);
+
+        containerPanel.add(ui);
+        containerPanel.add(world);
+
+//        // Main playing area
+//        final World world = new World("files/level_1.txt");
+//        frame.add(world, BorderLayout.CENTER);
+
+
+        frame.add(containerPanel, BorderLayout.CENTER);
         // Put the frame on the screen
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

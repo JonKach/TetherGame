@@ -1,6 +1,7 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Player;
+import org.cis1200.tether.UI.UIView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,11 +34,12 @@ public class World extends JPanel {
     private boolean p2Right = false;
     private boolean p2Up = false;
 
+    static Timer timer;
 
     public World(String filename) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        Timer timer = new Timer(INTERVAL, e -> tick());
+        timer = new Timer(INTERVAL, e -> tick());
         timer.start();
         setFocusable(true);
         createLevel(filename);
@@ -65,6 +67,10 @@ public class World extends JPanel {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_W) {
                     p2Up = true;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_G){
+                    timer.stop();
+                    UIView.displayLost();
                 }
             }
 
@@ -112,7 +118,7 @@ public class World extends JPanel {
         }
         p1.tick();
         p2.tick();
-        System.out.println(p2.debug);
+//        System.out.println(p2.debug);
         repaint();
     }
 
@@ -160,6 +166,12 @@ public class World extends JPanel {
                             case "P":
                                 color = new Color(148, 115, 82);
                                 createTile(row, col, true, color, true);
+                                break;
+                            case "S":
+                                System.out.println("spike");
+                                Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE);
+                                tiles[row][col] = spike;
+                                break;
                             default:
                                 continue;
                         }
@@ -190,6 +202,10 @@ public class World extends JPanel {
             System.err.println("Error reading file: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static void stopLevel() {
+        timer.stop();
     }
 
     @Override

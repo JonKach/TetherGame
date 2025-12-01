@@ -81,7 +81,7 @@ public class Player extends PhysicsObject {
         if (direction[0] == Direction.LEFT || direction[0] == Direction.RIGHT) {
             oldXDirection = direction[0];
         }
-        update();
+        update(true);
     }
 
     public Collision collisionCheck(double x, double y, int width, int height) {

@@ -147,7 +147,7 @@ public abstract class PhysicsObject {
      * Moves the object by its velocity. Ensures that the object does not go
      * outside its bounds by clipping.
      */
-    public void update() {
+    public void update(boolean clip) {
         this.vx += fx / MASS;
         this.vy += fy / MASS;
         this.fx = 0;
@@ -161,7 +161,9 @@ public abstract class PhysicsObject {
         }
         this.px += this.vx;
         this.py += this.vy;
-        clip();
+        if (clip) {
+            clip();
+        }
     }
 
     public void impulse(int fx, int fy) {
