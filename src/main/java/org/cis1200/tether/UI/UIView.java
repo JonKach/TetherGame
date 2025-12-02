@@ -36,7 +36,6 @@ public class UIView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (hasLost) {
-            System.out.println(loseCard.getPy());
             loseCard.draw(g);
         }
         if (hasWon) {

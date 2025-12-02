@@ -4,6 +4,7 @@ import org.cis1200.tether.Direction;
 import org.cis1200.tether.utility.Collision;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Tile {
 
@@ -13,24 +14,30 @@ public class Tile {
     private final int width;
     private final int height;
     private final Color color;
+    private final BufferedImage sprite;
 
     private final boolean passableFromBelow;
     private boolean visible;
 
-    public Tile(int x, int y,  int width, int height,  boolean passableFromBelow, Color color, boolean visible) {
+    public Tile(int x, int y, int width, int height, boolean passableFromBelow, Color color, BufferedImage sprite, boolean visible) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.passableFromBelow = passableFromBelow;
         this.color = color;
+        this.sprite = sprite;
         this.visible = visible;
     }
 
     public void draw(Graphics g) {
         if(visible) {
             g.setColor(color);
-            g.fillRect(x, y, width, height);
+            if(sprite != null) {
+                g.drawImage(sprite, x, y, width, height, null);
+            } else {
+                g.fillRect(x, y, width, height);
+            }
         }
     }
 

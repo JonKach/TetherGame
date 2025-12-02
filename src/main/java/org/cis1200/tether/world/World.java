@@ -2,11 +2,14 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Player;
 import org.cis1200.tether.UI.UIView;
+import org.cis1200.tether.utility.SpriteSheetLoader;
+import org.cis1200.tether.utility.Sprites;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -36,16 +39,26 @@ public class World extends JPanel {
 
     static Timer timer;
 
+    private BufferedImage terrainSpritesheet;
+
     public World(String filename) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         timer = new Timer(INTERVAL, e -> tick());
         timer.start();
         setFocusable(true);
+
+        try {
+            terrainSpritesheet = SpriteSheetLoader.loadImage("files/terrain.png");
+        } catch (Exception e) {
+            throw new RuntimeException("could not load terrain spritesheet");
+        }
+        Sprites.createAllSprites(terrainSpritesheet);
+
         createLevel(filename);
 
-        p1 = new Player(250, 50, 25, 50, 10, Color.RED, tiles);
-        p2 = new Player(250, 50, 25, 50, 10, Color.BLUE, tiles);
+        p1 = new Player(250, 50, 25, 32, 10, Color.RED, tiles, Sprites.p1RightSprite, Sprites.p1LeftSprite);
+        p2 = new Player(250, 50, 25, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite, Sprites.p2LeftSprite);
         p1.setPair(p2);
         p2.setPair(p1);
 
@@ -122,15 +135,15 @@ public class World extends JPanel {
         repaint();
     }
 
-    private void createTile(int row, int col, boolean passableFromBelow, Color color, boolean slab) {
+    private void createTile(int row, int col, boolean passableFromBelow, Color color, BufferedImage img, boolean slab) {
         if(slab) {
             tiles[row][col] = new Tile(col * TILE_SIZE,
-                    row * TILE_SIZE + TILE_SIZE - 10, TILE_SIZE, 10,
-                    passableFromBelow, color, true);
+                    row * TILE_SIZE + TILE_SIZE - 20, TILE_SIZE, 20,
+                    passableFromBelow, color, img, true);
         } else {
             tiles[row][col] = new Tile(col * TILE_SIZE,
                     row * TILE_SIZE, TILE_SIZE, TILE_SIZE,
-                    passableFromBelow, color, true);
+                    passableFromBelow, color, img, true);
         }
 
     }
@@ -153,22 +166,21 @@ public class World extends JPanel {
                         switch (rowData[col]) {
                             case "G":
                                 color = new Color(126, 200, 80);
-                                createTile(row, col, false, color, false);
+                                createTile(row, col, false, color, Sprites.grassSprite, false);
                                 break;
                             case "D":
                                 color = new Color(131, 101, 57);
-                                createTile(row, col, false, color, false);
+                                createTile(row, col, false, color, null, false);
                                 break;
                             case "W":
                                 color = new Color(210, 180, 140);
-                                createTile(row, col, false, color, false);
+                                createTile(row, col, false, color, Sprites.wallSprite, false);
                                 break;
                             case "P":
                                 color = new Color(148, 115, 82);
-                                createTile(row, col, true, color, true);
+                                createTile(row, col, true, color, Sprites.platformSprite, true);
                                 break;
                             case "S":
-                                System.out.println("spike");
                                 Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE);
                                 tiles[row][col] = spike;
                                 break;
@@ -226,7 +238,7 @@ public class World extends JPanel {
             g.setColor(Color.BLACK);
         }
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(5.0f));
+        g2d.setStroke(new BasicStroke(3.0f));
         g2d.drawLine((int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2,
                 (int) p2.getPx() + p2.getWidth() / 2, (int) p2.getPy() + p2.getHeight() / 2);
     }

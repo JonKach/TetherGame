@@ -6,6 +6,7 @@ import org.cis1200.tether.world.Tile;
 import org.cis1200.tether.world.World;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends PhysicsObject {
 
@@ -17,10 +18,16 @@ public class Player extends PhysicsObject {
     private Direction oldXDirection = Direction.STANDSTILL;
     public String debug;
 
-    public Player(int px, int py, int width, int height, int mass, Color color, Tile[][] tiles) {
+    private BufferedImage playerRightSprite;
+    private BufferedImage playerLeftSprite;
+
+    public Player(int px, int py, int width, int height, int mass, Color color, Tile[][] tiles,
+                  BufferedImage playerRightSprite, BufferedImage playerLeftSprite) {
         super(px, py, width, height, mass);
         this.tiles = tiles;
         this.color = color;
+        this.playerRightSprite = playerRightSprite;
+        this.playerLeftSprite = playerLeftSprite;
     }
 
     public void setPair(Player other) {
@@ -30,7 +37,15 @@ public class Player extends PhysicsObject {
     @Override
     public void draw(Graphics g) {
         g.setColor(this.color);
-        g.fillRect((int) getPx(), (int) getPy(), getWidth(), getHeight());
+        if (playerLeftSprite != null && playerRightSprite != null) {
+            if (getVx() >= 0) {
+                g.drawImage(playerRightSprite, (int) getPx(), (int) getPy(), null);
+            } else {
+                g.drawImage(playerLeftSprite, (int) getPx(), (int) getPy(), null);
+            }
+        } else {
+            g.fillRect((int) getPx(), (int) getPy(), getWidth(), getHeight());
+        }
     }
 
     public void tick() {
