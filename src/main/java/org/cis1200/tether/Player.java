@@ -52,7 +52,7 @@ public class Player extends PhysicsObject {
         tether();
         Direction[] direction = getDirection();
         double futureX = getPx() + getVx();
-        Collision xCollision = collisionCheck(futureX, getPy(), getWidth(), getHeight());
+        Collision xCollision = collisionCheck(futureX, getPy(), getWidth(), getHeight(), getVx(), 0);
 //        boolean sideCollided = xCollision.getSideCollided();
         boolean leftCollided = xCollision.isLeftCollided();
         boolean rightCollided = xCollision.isRightCollided();
@@ -69,7 +69,7 @@ public class Player extends PhysicsObject {
         }
         double futureY = getPy() + getVy();
         futureX = getPx() + getVx(); //should have changed if it was set to 0 above
-        Collision yCollision = collisionCheck(futureX, futureY, getWidth(), getHeight());
+        Collision yCollision = collisionCheck(futureX, futureY, getWidth(), getHeight(), getVx(), getVy());
         boolean collided = yCollision.isCollided();
         boolean topCollided = yCollision.isTopCollided();
 
@@ -99,7 +99,7 @@ public class Player extends PhysicsObject {
         update(true);
     }
 
-    public Collision collisionCheck(double x, double y, int width, int height) {
+    public Collision collisionCheck(double x, double y, int width, int height, double vx, double vy) {
         int gridColOfPlayer = (int) getPx() / World.TILE_SIZE;
         int gridRowOfPlayer = (int) getPy() / World.TILE_SIZE;
         int gridWidth = (getWidth() / World.TILE_SIZE) + 1;
@@ -117,7 +117,7 @@ public class Player extends PhysicsObject {
                     continue;
                 } else {
                     Collision collision = tiles[i][j].collidesWith(x, y,
-                            width, height);
+                            width, height, vx, vy);
                     collided = collision.isCollided() || collided;
 //                    sideCollided = collision.getSideCollided() || sideCollided;
                     leftCollided = collision.isLeftCollided() || leftCollided;

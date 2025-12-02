@@ -1,17 +1,15 @@
 package org.cis1200.tether.world;
 
-import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Spike extends Tile {
+public class Flag extends Tile {
 
-    public Spike(int x, int y) {
-        super(x + 15, y + World.TILE_SIZE - 20, 20, 20, false,
-                new Color(255, 0, 0), Sprites.spikeSprite, true);
+    public Flag(int x, int y) {
+        super(x + 15, y + World.TILE_SIZE, World.TILE_SIZE, World.TILE_SIZE, false,
+                new Color(0, 255, 0), Sprites.flagSprite, true);
     }
 
     @Override
@@ -34,6 +32,6 @@ public class Spike extends Tile {
 
     @Override
     public void onCollide() {
-        World.stopLevel(false);
+        World.stopLevel(true);
     }
 }

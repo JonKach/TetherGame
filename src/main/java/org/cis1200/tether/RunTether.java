@@ -1,5 +1,6 @@
 package org.cis1200.tether;
 
+import org.cis1200.tether.UI.BackgroundPanel;
 import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.world.World;
 
@@ -20,8 +21,8 @@ public class RunTether implements Runnable {
         final JLabel status = new JLabel("Running...");
         status_panel.add(status);
 
-        JPanel containerPanel = new JPanel();
-        containerPanel.setBackground(new Color(135, 206, 235));
+        JPanel containerPanel = new BackgroundPanel(BackgroundPanel.Background.BROWN);
+//        containerPanel.setBackground(new Color(135, 206, 235));
         containerPanel.setLayout(new OverlayLayout(containerPanel));
 
         final UIView ui = new UIView();
@@ -29,7 +30,7 @@ public class RunTether implements Runnable {
         ui.setAlignmentX(0.5f);
         ui.setAlignmentY(0.5f);
 
-        final World world = new World("files/level_1.txt");
+        final World world = new World("files/level_1.txt", 50, 350, 60, 350);
         world.setPreferredSize(new Dimension(1000, 500));
         world.setAlignmentX(0.5f);
         world.setAlignmentY(0.5f);

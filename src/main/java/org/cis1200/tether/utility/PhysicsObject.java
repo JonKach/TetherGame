@@ -39,6 +39,7 @@ public abstract class PhysicsObject {
     private final int maxY;
 
     private boolean applyGravity = true;
+    private boolean applyFriction = true;
     private boolean leftRestrict = false, rightRestrict = false;
     /**
      * Constructor
@@ -152,10 +153,12 @@ public abstract class PhysicsObject {
         this.vy += fy / MASS;
         this.fx = 0;
         this.fy = 0;
-        if(applyGravity) {
+        if (applyGravity) {
             this.vy += 1; //GRAVITY
         }
-        this.vx *= 0.9;
+        if (applyFriction) {
+            this.vx *= 0.9;
+        }
         if (Math.abs(vx) < 0.1) {
             this.vx = 0;
         }
@@ -200,6 +203,10 @@ public abstract class PhysicsObject {
     public void setMotionRestrictions(boolean left, boolean right) {
         leftRestrict = left;
         rightRestrict = right;
+    }
+
+    public void setApplyFriction(boolean applyFriction) {
+        this.applyFriction = applyFriction;
     }
 
     public abstract void draw(Graphics g);

@@ -1,5 +1,6 @@
 package org.cis1200.tether.utility;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -16,6 +17,7 @@ public class Sprites {
     public static BufferedImage p2LeftSprite;
     public static BufferedImage p1RightSprite;
     public static BufferedImage p1LeftSprite;
+    public static Image flagSprite;
 
     public static void createAllSprites(BufferedImage spritesheet) {
         grassSprite = spritesheet.getSubimage(96, 0, 48, 48);
@@ -31,6 +33,7 @@ public class Sprites {
             BufferedImage p1 =  SpriteSheetLoader.loadImage("files/p1.png").getSubimage(0, 0, 32, 32);
             p1RightSprite = p1;
             p1LeftSprite = flipHorizontally(p1);
+            flagSprite = SpriteSheetLoader.loadImage("files/flag.png");
         } catch (Exception e) {
             throw new RuntimeException("could not load terrain spritesheet");
         }

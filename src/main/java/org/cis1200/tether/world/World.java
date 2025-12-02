@@ -1,5 +1,6 @@
 package org.cis1200.tether.world;
 
+import org.cis1200.tether.Lava;
 import org.cis1200.tether.Player;
 import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.utility.SpriteSheetLoader;
@@ -37,11 +38,13 @@ public class World extends JPanel {
     private boolean p2Right = false;
     private boolean p2Up = false;
 
+    Lava lava;
+
     static Timer timer;
 
     private BufferedImage terrainSpritesheet;
 
-    public World(String filename) {
+    public World(String filename, int p1x, int p1y, int p2x, int p2y) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         timer = new Timer(INTERVAL, e -> tick());
@@ -57,10 +60,15 @@ public class World extends JPanel {
 
         createLevel(filename);
 
-        p1 = new Player(250, 50, 25, 32, 10, Color.RED, tiles, Sprites.p1RightSprite, Sprites.p1LeftSprite);
-        p2 = new Player(250, 50, 25, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite, Sprites.p2LeftSprite);
+        p1 = new Player(p1x, p1y, 30, 32, 10, Color.RED, tiles, Sprites.p1RightSprite, Sprites.p1LeftSprite);
+        p2 = new Player(p2x, p2y, 30, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite, Sprites.p2LeftSprite);
         p1.setPair(p2);
         p2.setPair(p1);
+
+        lava = new Lava(-1900, 0, 1100, 500, 10);
+        lava.setApplyGravity(false);
+        lava.setApplyFriction(false);
+        lava.setVx(1);
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -129,10 +137,14 @@ public class World extends JPanel {
         if(p2Up) {
             p2.jump();
         }
+        lava.update(false);
         p1.tick();
         p2.tick();
 //        System.out.println(p2.debug);
         repaint();
+        if(lava.getPx() + lava.getWidth() > p1.getPx() + 20 || lava.getPx() + lava.getWidth() > p2.getPx() + 20) {
+            stopLevel(false);
+        }
     }
 
     private void createTile(int row, int col, boolean passableFromBelow, Color color, BufferedImage img, boolean slab) {
@@ -184,6 +196,10 @@ public class World extends JPanel {
                                 Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE);
                                 tiles[row][col] = spike;
                                 break;
+                            case "F":
+                                Flag flag = new Flag(col * TILE_SIZE, row * TILE_SIZE);
+                                tiles[row][col] = flag;
+                                break;
                             default:
                                 continue;
                         }
@@ -216,13 +232,19 @@ public class World extends JPanel {
         }
     }
 
-    public static void stopLevel() {
+    public static void stopLevel(boolean won) {
         timer.stop();
+        if(won) {
+            UIView.displayWon();
+        } else {
+            UIView.displayLost();
+        }
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        lava.draw(g);
         for (Tile[] tileRow : tiles) {
             for(Tile tile : tileRow) {
                 if(tile != null) {
@@ -239,7 +261,7 @@ public class World extends JPanel {
         }
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3.0f));
-        g2d.drawLine((int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2,
+        g2d.drawLine((int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2 + 10,
                 (int) p2.getPx() + p2.getWidth() / 2, (int) p2.getPy() + p2.getHeight() / 2);
     }
 

@@ -14,12 +14,12 @@ public class Tile {
     private final int width;
     private final int height;
     private final Color color;
-    private final BufferedImage sprite;
+    private final Image sprite;
 
     private final boolean passableFromBelow;
     private boolean visible;
 
-    public Tile(int x, int y, int width, int height, boolean passableFromBelow, Color color, BufferedImage sprite, boolean visible) {
+    public Tile(int x, int y, int width, int height, boolean passableFromBelow, Color color, Image sprite, boolean visible) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -42,7 +42,7 @@ public class Tile {
     }
 
     public Collision collidesWith(double playerX, double playerY,
-                                  int playerWidth, int playerHeight) {
+                                  int playerWidth, int playerHeight, double vx, double vy) {
 
         int boxTop = this.y;
         int boxBottom = this.y + height;
@@ -53,7 +53,6 @@ public class Tile {
             return new Collision(false, false, false, false, false);
         }
 
-//        System.out.println(playerX + playerWidth + "left " + boxLeft + "x" + playerX + "right" + boxRight);
         boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
 

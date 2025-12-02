@@ -25,7 +25,7 @@ public class UIView extends JPanel {
             loseCard.impulse(0, -20);
             loseCard.update(false);
         }
-        if (hasWon && winCard.getPy() < (double) World.WORLD_HEIGHT / 2 - (double) loseCard.getHeight() / 2) {
+        if (hasWon && winCard.getPy() > (double) World.WORLD_HEIGHT / 2 - (double) loseCard.getHeight() / 2) {
             winCard.impulse(0, -20);
             winCard.update(false);
         }
