@@ -8,10 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RunTether implements Runnable {
+
+    JPanel currPanel;
+    final JFrame frame = new JFrame("Tether");
+
     @Override
     public void run() {
         // Top-level frame in which game components live.
-        final JFrame frame = new JFrame("Tether");
         frame.setLocation(1000, 500);
         frame.getContentPane().setBackground(new Color(135, 206, 235));
 
@@ -48,5 +51,9 @@ public class RunTether implements Runnable {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    private void changePanel() {
+
     }
 }

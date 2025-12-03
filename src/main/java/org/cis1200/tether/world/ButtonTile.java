@@ -1,5 +1,6 @@
 package org.cis1200.tether.world;
 
+import org.cis1200.tether.Direction;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
@@ -17,11 +18,16 @@ public class ButtonTile extends Tile {
     }
 
     @Override
-    public Collision collidesWith(double playerX, double playerY, int playerWidth, int playerHeight, double vx, double vy) {
-        int boxTop = getY() + 20;
+    public Collision collidesWith(double playerX, double playerY, int playerWidth, int playerHeight, double vx,
+                                  double vy) {
+        int boxTop = getY() + 25;
         int boxBottom = getY() + getHeight();
         int boxLeft = getX() + 7;
         int boxRight = getX() + getWidth() - 7;
+
+        if((playerY + playerHeight - boxTop > 10)) {
+            return new Collision(false, false, false, false, false);
+        }
 
         boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
@@ -30,20 +36,26 @@ public class ButtonTile extends Tile {
         boolean biggerXCollided = playerX + playerWidth + 4 >= boxLeft && playerX - 4 <= boxRight;
         boolean sideCollided = biggerXCollided && smallerYCollided;
 
-        //if side collided calc the distance from player left edge to block right edge and play right edge to block left
-        //whichever is less its that kind of collsion
-        //do a simialr thing for y collision, now we will know what type of collision, use that to solve the other issue
-        // which is that tether nudges to the right while still be in contact with left wall, so we think we can move left.
         boolean topCollided = Math.abs(playerY - boxBottom) <= Math.abs(playerY + playerHeight - boxTop);
-
+        if (sideCollided) {
+            if (Math.abs(playerX - boxRight) <= Math.abs(playerX + playerWidth -  boxLeft)) {
+                return new Collision(xCollided && yCollided, true, false,
+                        topCollided, false);
+            } else {
+                return new Collision(xCollided && yCollided, false, true,
+                        topCollided, false);
+            }
+        }
         return new Collision(xCollided && yCollided, false, false,
                 topCollided, false);
     }
 
     @Override
-    public void onCollide() {
-        for (Door door : linkedDoors) {
-            door.unlockDoor();
+    public void onCollide(Direction[] colDirection) {
+        if(colDirection[1] == Direction.DOWN) {
+            for (Door door : linkedDoors) {
+                door.unlockDoor();
+            }
         }
     }
 }

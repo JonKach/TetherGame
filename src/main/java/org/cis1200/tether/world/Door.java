@@ -1,5 +1,6 @@
 package org.cis1200.tether.world;
 
+import org.cis1200.tether.Direction;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ public class Door extends Tile {
     }
 
     @Override
-    public void onCollide() {
+    public void onCollide(Direction[] colDirection) {
         //does nothing on collision, maybe add a message later
     }
 

@@ -1,5 +1,6 @@
 package org.cis1200.tether.world;
 
+import org.cis1200.tether.Direction;
 import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
@@ -33,7 +34,7 @@ public class Spike extends Tile {
     }
 
     @Override
-    public void onCollide() {
+    public void onCollide(Direction[] colDirection) {
         World.stopLevel(false);
     }
 }

@@ -85,7 +85,7 @@ public class Tile {
         this.visible = visible;
     }
 
-    public void onCollide() {
+    public void onCollide(Direction[] colDirection) {
         //does nothing by default, for dynamic effects (button pushing, doors, etc.) and powerup collection
     }
 

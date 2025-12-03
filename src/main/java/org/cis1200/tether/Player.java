@@ -15,7 +15,6 @@ public class Player extends PhysicsObject {
     private Color color;
     private Player other;
 
-    private Direction oldXDirection = Direction.STANDSTILL;
     public String debug;
 
     private BufferedImage playerRightSprite;
@@ -93,9 +92,6 @@ public class Player extends PhysicsObject {
 //        if (!sideCollided && collided) { //good to move x on its own but y causes problems
 //            setVy(0);
 //        }
-        if (direction[0] == Direction.LEFT || direction[0] == Direction.RIGHT) {
-            oldXDirection = direction[0];
-        }
         update(true);
     }
 
@@ -124,7 +120,7 @@ public class Player extends PhysicsObject {
                     rightCollided = collision.isRightCollided() || rightCollided;
                     debug = collision.getDebug() || debug;
                     if (collision.isCollided()) {
-                        tiles[i][j].onCollide();
+                        tiles[i][j].onCollide(getDirection());
                         topCollided = collision.isTopCollided() || topCollided;
                     }
                 }
