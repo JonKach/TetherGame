@@ -2,8 +2,8 @@ package org.cis1200.tether;
 
 import org.cis1200.tether.UI.BackgroundPanel;
 import org.cis1200.tether.UI.UIView;
+import org.cis1200.tether.screens.LevelsScreen;
 import org.cis1200.tether.screens.TitleScreen;
-import org.cis1200.tether.world.Tile;
 import org.cis1200.tether.world.World;
 
 import javax.swing.*;
@@ -51,6 +51,10 @@ public class ScreenManager extends JPanel {
                 currScreen.add(world);
                 SwingUtilities.invokeLater(world::requestFocusInWindow);
                 break;
+            case LEVELS_SCREEN:
+                currScreen = new LevelsScreen(this);
+                SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
+                break;
             default:
                 currScreen = new JPanel();
                 currScreen.setBackground(Color.white);
@@ -68,7 +72,7 @@ public class ScreenManager extends JPanel {
 
     public enum Screen {
         TITLE_SCREEN,
-        INSTRUCTIONS_SCREEN,
+        LEVELS_SCREEN,
         LEVEL_1,
         LEVEL_2,
         LEVEL_3,

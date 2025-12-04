@@ -4,6 +4,8 @@ import org.cis1200.tether.world.World;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 
 public class UIView extends JPanel {
 
@@ -12,10 +14,14 @@ public class UIView extends JPanel {
     static UICard loseCard;
     static UICard winCard;
 
+    private Instant startTime;
+
     public UIView() {
         setOpaque(false);
         Timer timer = new Timer(World.INTERVAL, e -> tick());
         timer.start();
+
+        startTime = Instant.now();
 
         reset();
     }
@@ -35,6 +41,10 @@ public class UIView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(new Font("Arial", Font.PLAIN, 24));
+        g.setColor(Color.black);
+        Duration duration = Duration.between(startTime, Instant.now());
+        g.drawString(duration.getSeconds() + "." + (duration.getNano() / 1000000) % 1000, 10, 30);
         if (hasLost) {
             loseCard.draw(g);
         }
