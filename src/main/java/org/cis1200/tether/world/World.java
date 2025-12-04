@@ -50,6 +50,7 @@ public class World extends JPanel {
         timer = new Timer(INTERVAL, e -> tick());
         timer.start();
         setFocusable(true);
+        setEnabled(true);
 
         try {
             terrainSpritesheet = SpriteSheetLoader.loadImage("files/terrain.png");

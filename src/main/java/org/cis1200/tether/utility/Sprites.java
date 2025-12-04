@@ -30,7 +30,7 @@ public class Sprites {
             BufferedImage p2 = SpriteSheetLoader.loadImage("files/p2.png").getSubimage(0, 0, 32, 32);
             p2RightSprite = p2;
             p2LeftSprite = flipHorizontally(p2);
-            BufferedImage p1 =  SpriteSheetLoader.loadImage("files/p1.png").getSubimage(0, 0, 32, 32);
+            BufferedImage p1 = SpriteSheetLoader.loadImage("files/p1.png").getSubimage(0, 0, 32, 32);
             p1RightSprite = p1;
             p1LeftSprite = flipHorizontally(p1);
             flagSprite = SpriteSheetLoader.loadImage("files/flag.png");
