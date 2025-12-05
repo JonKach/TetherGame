@@ -11,9 +11,9 @@ public class ButtonTile extends Tile {
 
     ArrayList<Door> linkedDoors;
 
-    public ButtonTile(int x, int y, ArrayList<Door> linkedDoors) {
+    public ButtonTile(int x, int y, ArrayList<Door> linkedDoors, World world) {
         super(x, y + World.TILE_SIZE - 40, 50, 40, false,
-                new Color(255, 71, 76), Sprites.buttonSprite, true);
+                new Color(255, 71, 76), Sprites.buttonSprite, true, world);
         this.linkedDoors = linkedDoors;
     }
 

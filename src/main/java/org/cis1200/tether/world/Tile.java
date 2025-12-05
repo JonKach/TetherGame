@@ -15,11 +15,13 @@ public class Tile {
     private final int height;
     private final Color color;
     private final Image sprite;
+    private World world;
 
     private final boolean passableFromBelow;
     private boolean visible;
 
-    public Tile(int x, int y, int width, int height, boolean passableFromBelow, Color color, Image sprite, boolean visible) {
+    public Tile(int x, int y, int width, int height, boolean passableFromBelow, Color color, Image sprite,
+                boolean visible, World world) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -28,6 +30,7 @@ public class Tile {
         this.color = color;
         this.sprite = sprite;
         this.visible = visible;
+        this.world = world;
     }
 
     public void draw(Graphics g) {
@@ -107,5 +110,9 @@ public class Tile {
 
     public Color getColor() {
         return color;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

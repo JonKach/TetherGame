@@ -12,6 +12,7 @@ import java.awt.*;
 public class ScreenManager extends JPanel {
 
     JPanel currScreen;
+    Screen currentScreenEnum;
 
     public ScreenManager() {
         setOpaque(false);
@@ -31,31 +32,19 @@ public class ScreenManager extends JPanel {
         switch (screen) {
             case TITLE_SCREEN:
                 currScreen = new TitleScreen(this);
+                currentScreenEnum = Screen.TITLE_SCREEN;
                 SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
                 break;
             case LEVEL_1:
-                currScreen = new BackgroundPanel(BackgroundPanel.Background.BROWN);
-                currScreen.setLayout(new OverlayLayout(currScreen));
-
-                final UIView ui = new UIView();
-                ui.setPreferredSize(new Dimension(1000, 500));
-                ui.setAlignmentX(0.5f);
-                ui.setAlignmentY(0.5f);
-
-                final World world = new World("files/level_1.txt", 50, 350, 60, 350);
-                world.setPreferredSize(new Dimension(1000, 500));
-                world.setAlignmentX(0.5f);
-                world.setAlignmentY(0.5f);
-
-                currScreen.add(ui);
-                currScreen.add(world);
-                SwingUtilities.invokeLater(world::requestFocusInWindow);
+                newLevel("files/level_1.txt");
                 break;
             case LEVELS_SCREEN:
                 currScreen = new LevelsScreen(this);
+                currentScreenEnum = Screen.LEVELS_SCREEN;
                 SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
                 break;
             default:
+                currentScreenEnum = Screen.DEFAULT;
                 currScreen = new JPanel();
                 currScreen.setBackground(Color.white);
                 currScreen.add(new JLabel("Default Screen"));
@@ -65,12 +54,37 @@ public class ScreenManager extends JPanel {
         repaint();
     }
 
+    private void newLevel(String filename) {
+        currScreen = new BackgroundPanel(BackgroundPanel.Background.BROWN);
+        currScreen.setLayout(new OverlayLayout(currScreen));
+        currentScreenEnum = Screen.LEVEL_1;
+
+        final UIView ui = new UIView(this);
+        ui.setPreferredSize(new Dimension(1000, 500));
+        ui.setAlignmentX(0.5f);
+        ui.setAlignmentY(0.5f);
+
+        final World world = new World(filename, 50, 350, 60, 350, ui);
+        world.setPreferredSize(new Dimension(1000, 500));
+        world.setAlignmentX(0.5f);
+        world.setAlignmentY(0.5f);
+
+        currScreen.add(ui);
+        currScreen.add(world);
+        SwingUtilities.invokeLater(world::requestFocusInWindow);
+    }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(1000, 500);
     }
 
+    public Screen getScreen() {
+        return currentScreenEnum;
+    }
+
     public enum Screen {
+        DEFAULT,
         TITLE_SCREEN,
         LEVELS_SCREEN,
         LEVEL_1,

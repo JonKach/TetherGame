@@ -45,13 +45,17 @@ public class World extends JPanel {
 
     private BufferedImage terrainSpritesheet;
 
-    public World(String filename, int p1x, int p1y, int p2x, int p2y) {
+    private UIView ui;
+
+    public World(String filename, int p1x, int p1y, int p2x, int p2y, UIView uiView) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         timer = new Timer(INTERVAL, e -> tick());
         timer.start();
         setFocusable(true);
         setEnabled(true);
+
+        this.ui = uiView;
 
         try {
             terrainSpritesheet = SpriteSheetLoader.loadImage("files/terrain.png");
@@ -93,7 +97,8 @@ public class World extends JPanel {
                 }
                 if(e.getKeyCode() == KeyEvent.VK_G){
                     timer.stop();
-                    UIView.displayLost();
+                    uiView.displayLost();
+                    uiView.stopUIView();
                 }
             }
 
@@ -153,11 +158,11 @@ public class World extends JPanel {
         if(slab) {
             tiles[row][col] = new Tile(col * TILE_SIZE,
                     row * TILE_SIZE + TILE_SIZE - 20, TILE_SIZE, 20,
-                    passableFromBelow, color, img, true);
+                    passableFromBelow, color, img, true, this);
         } else {
             tiles[row][col] = new Tile(col * TILE_SIZE,
                     row * TILE_SIZE, TILE_SIZE, TILE_SIZE,
-                    passableFromBelow, color, img, true);
+                    passableFromBelow, color, img, true, this);
         }
 
     }
@@ -195,11 +200,11 @@ public class World extends JPanel {
                                 createTile(row, col, true, color, Sprites.platformSprite, true);
                                 break;
                             case "S":
-                                Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE);
+                                Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE, this);
                                 tiles[row][col] = spike;
                                 break;
                             case "F":
-                                Flag flag = new Flag(col * TILE_SIZE, row * TILE_SIZE);
+                                Flag flag = new Flag(col * TILE_SIZE, row * TILE_SIZE, this);
                                 tiles[row][col] = flag;
                                 break;
                             default:
@@ -213,13 +218,13 @@ public class World extends JPanel {
                     int x =  Integer.parseInt(rowData[2])-1;
                     switch (rowData[0]) {
                         case "O":
-                            Door door = new Door(x * TILE_SIZE, y * TILE_SIZE);
+                            Door door = new Door(x * TILE_SIZE, y * TILE_SIZE, this);
                             doors.add(door);
                             tiles[y][x] = door;
                             break;
                         case "B":
                             ButtonTile button = new ButtonTile(x * TILE_SIZE, y * TILE_SIZE,
-                                    new ArrayList<>(doors));
+                                    new ArrayList<>(doors), this);
                             tiles[y][x] = button;
                             doors.clear();
                             break;
@@ -234,13 +239,14 @@ public class World extends JPanel {
         }
     }
 
-    public static void stopLevel(boolean won) {
+    public void stopLevel(boolean won) {
         timer.stop();
         if(won) {
-            UIView.displayWon();
+            this.ui.displayWon();
         } else {
-            UIView.displayLost();
+            this.ui.displayLost();
         }
+        ui.stopUIView();
     }
 
     @Override

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class Spike extends Tile {
 
-    public Spike(int x, int y) {
+    public Spike(int x, int y, World world) {
         super(x + 15, y + World.TILE_SIZE - 20, 20, 20, false,
-                new Color(255, 0, 0), Sprites.spikeSprite, true);
+                new Color(255, 0, 0), Sprites.spikeSprite, true, world);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class Spike extends Tile {
 
     @Override
     public void onCollide(Direction[] colDirection) {
-        World.stopLevel(false);
+        getWorld().stopLevel(false);
     }
 }

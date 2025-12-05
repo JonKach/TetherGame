@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class Flag extends Tile {
 
-    public Flag(int x, int y) {
+    public Flag(int x, int y, World world) {
         super(x + 15, y + World.TILE_SIZE, World.TILE_SIZE, World.TILE_SIZE, false,
-                new Color(0, 255, 0), Sprites.flagSprite, true);
+                new Color(0, 255, 0), Sprites.flagSprite, true, world);
     }
 
     @Override
@@ -33,6 +33,6 @@ public class Flag extends Tile {
 
     @Override
     public void onCollide(Direction[] colDirection) {
-        World.stopLevel(true);
+        getWorld().stopLevel(true);
     }
 }

@@ -1,5 +1,6 @@
 package org.cis1200.tether.UI;
 
+import org.cis1200.tether.ScreenManager;
 import org.cis1200.tether.world.World;
 
 import javax.swing.*;
@@ -9,32 +10,35 @@ import java.time.Instant;
 
 public class UIView extends JPanel {
 
-    static boolean hasWon = false;
-    static boolean hasLost = false;
+    ScreenManager screenManager;
+
+    static boolean cardEnabled = false;
     static UICard loseCard;
     static UICard winCard;
 
     private Instant startTime;
 
-    public UIView() {
+    Timer timer;
+
+    static UICard currentCard;
+
+    public UIView(ScreenManager screenManager) {
         setOpaque(false);
-        Timer timer = new Timer(World.INTERVAL, e -> tick());
+        setLayout(null);
+        setBounds(0, 0, 1000, 500);
+        timer = new Timer(World.INTERVAL, e -> tick());
         timer.start();
+        this.screenManager = screenManager;
+        cardEnabled = false;
 
         startTime = Instant.now();
-
-        reset();
     }
 
     private void tick() {
-        if (hasLost && loseCard.getPy() > (double) World.WORLD_HEIGHT / 2 - (double) loseCard.getHeight() / 2) {
-            loseCard.impulse(0, -20);
-            loseCard.update(false);
-        }
-        if (hasWon && winCard.getPy() > (double) World.WORLD_HEIGHT / 2 - (double) loseCard.getHeight() / 2) {
-            winCard.impulse(0, -20);
-            winCard.update(false);
-        }
+//        if (cardEnabled && currentCard.getY() > (double) World.WORLD_HEIGHT / 2 - (double) currentCard.getHeight() / 2) {
+//            currentCard.moveCard(0, -20);
+//            System.out.println("yo2");
+//        }
         repaint();
     }
 
@@ -45,12 +49,6 @@ public class UIView extends JPanel {
         g.setColor(Color.black);
         Duration duration = Duration.between(startTime, Instant.now());
         g.drawString(duration.getSeconds() + "." + (duration.getNano() / 1000000) % 1000, 10, 30);
-        if (hasLost) {
-            loseCard.draw(g);
-        }
-        if (hasWon) {
-            winCard.draw(g);
-        }
     }
 
     @Override
@@ -58,25 +56,24 @@ public class UIView extends JPanel {
         return new Dimension(World.WORLD_WIDTH, World.WORLD_HEIGHT);
     }
 
-    public static void displayLost() {
-        hasLost = true;
+    public void displayLost() {
+        this.removeAll();
+        currentCard = new UICard(275, 125, 400, 200, "You Lose!", true, screenManager);
+        cardEnabled = true;
+        this.add(currentCard);
+        this.revalidate();
+        this.repaint();
     }
-    public static void displayWon() {
-        hasWon = true;
+    public void displayWon() {
+        currentCard = new UICard(275, 125, 400, 200, "You Win!", false, screenManager);
+        cardEnabled = true;
+        this.add(currentCard);
+        this.revalidate();
+        this.repaint();
     }
 
-    public static void reset() {
-        hasLost = false;
-        hasWon = false;
-        loseCard = new UICard(World.WORLD_WIDTH / 2 - World.WORLD_WIDTH / 4,
-                World.WORLD_HEIGHT + 10, World.WORLD_WIDTH / 2,
-                World.WORLD_HEIGHT / 2, "You Lose!");
-        loseCard.setApplyGravity(false);
-
-        winCard = new UICard(World.WORLD_WIDTH / 2 - World.WORLD_WIDTH / 4,
-                World.WORLD_HEIGHT + 10, World.WORLD_WIDTH / 2,
-                World.WORLD_HEIGHT / 2, "You Win!");
-        winCard.setApplyGravity(false);
+    public void stopUIView() {
+        timer.stop();
     }
 
 
