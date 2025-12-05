@@ -58,6 +58,7 @@ public class ButtonTile extends Tile {
         if(colDirection[1] == Direction.DOWN) {
             for (Door door : linkedDoors) {
                 door.unlockDoor();
+                World.setUnlockedDoors(true);
             }
         }
     }

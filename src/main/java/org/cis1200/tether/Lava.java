@@ -10,7 +10,7 @@ public class Lava extends PhysicsObject {
 
     TexturePaint lavaTexture;
 
-    public Lava(int px, int py, int width, int height, int mass) {
+    public Lava(double px, double py, int width, int height, int mass) {
         super(px, py, width, height, mass);
         BufferedImage lavaSprite = SpriteSheetLoader.loadImage("files/lava.png");
         lavaTexture = new TexturePaint(lavaSprite, new Rectangle(0, 0,

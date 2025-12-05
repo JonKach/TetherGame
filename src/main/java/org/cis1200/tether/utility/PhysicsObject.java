@@ -45,7 +45,7 @@ public abstract class PhysicsObject {
      * Constructor
      */
     public PhysicsObject(
-            int px, int py, int width, int height, int mass
+            double px, double py, int width, int height, int mass
     ) {
         MASS = mass;
         this.vx = 0;

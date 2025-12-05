@@ -8,6 +8,9 @@ import org.cis1200.tether.world.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -37,7 +40,7 @@ public class Player extends PhysicsObject {
     private String playerName;
     private UIView ui;
 
-    public Player(int px, int py, int width, int height, int mass, Color color, Tile[][] tiles,
+    public Player(double px, double py, int width, int height, int mass, Color color, Tile[][] tiles,
                   BufferedImage playerRightSprite, BufferedImage playerLeftSprite, String playerName, UIView ui) {
         super(px, py, width, height, mass);
         this.tiles = tiles;
@@ -243,5 +246,36 @@ public class Player extends PhysicsObject {
 
     public double getDist() {
         return dist(getPx(), getPy(), other.getPx(), other.getPy());
+    }
+
+    public void saveState() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+            writer.write("---" + playerName + "-INFO---" + "\n");
+            writer.write(playerName + "isGrounded: " +  isGrounded + "\n");
+            writer.write(playerName +"isOnDoubleJump: " +  isOnDoubleJump + "\n");
+            writer.write(playerName +"dashAvailable: " +  dashAvailable + "\n");
+            writer.write(playerName +"upReleased: " +  upReleased + "\n");
+            writer.write(playerName +"isUntethered: " +  isUntethered + "\n");
+            StringBuilder powerUpString = new StringBuilder();
+            powerUpString.append(playerName).append("PowerUps: ");
+            for (PowerUp powerUp : powerUps) {
+                powerUpString.append(powerUp.getType()).append("/");
+            }
+            writer.write(powerUpString + "\n");
+            writer.close();
+            System.out.println("Content successfully written to " + "savedGameState.txt");
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    public void loadInfo(boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
+                           boolean untethered, HashSet<PowerUp> powerUps) {
+        this.isGrounded = isGrounded;
+        this.isOnDoubleJump = doubleJump;
+        this.dashAvailable = dashAvailable;
+        this.upReleased = upReleased;
+        this.isUntethered = untethered;
+        this.powerUps = powerUps;
     }
 }

@@ -2,10 +2,16 @@ package org.cis1200.tether.UI;
 
 import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.ScreenManager;
+import org.cis1200.tether.utility.SpriteSheetLoader;
 import org.cis1200.tether.world.World;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -27,10 +33,39 @@ public class UIView extends JPanel {
     private HashSet<PowerUp> p1PowerUps;
     private HashSet<PowerUp> p2PowerUps;
 
+    private Image saveIcon;
+    private UIButton save;
+
+    private Duration existingDuration;
+
     public UIView(ScreenManager screenManager) {
         setOpaque(false);
         setLayout(null);
         setBounds(0, 0, 1000, 500);
+        existingDuration = Duration.ZERO;
+        saveIcon = SpriteSheetLoader.loadImage("files/saveIcon.png");
+        save = new UIButton(950, 10, 50, 40, 5, saveIcon, null);
+        save.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    screenManager.saveGameState();
+                    screenManager.stopGame();
+                    screenManager.setScreen(ScreenManager.Screen.TITLE_SCREEN);
+                    JOptionPane.showMessageDialog(UIView.this, "Game State Saved!");
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    save.bounce(true);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    save.bounce(false);
+                }
+            }
+        );
+        this.add(save);
         timer = new Timer(World.INTERVAL, e -> tick());
         timer.start();
         this.screenManager = screenManager;
@@ -54,7 +89,7 @@ public class UIView extends JPanel {
         super.paintComponent(g);
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         g.setColor(Color.black);
-        Duration duration = Duration.between(startTime, Instant.now());
+        Duration duration = Duration.between(startTime, Instant.now()).plus(existingDuration);
         g.drawString(duration.getSeconds() + "." + (duration.getNano() / 1000000) % 1000, 10, 30);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
         g.setColor(Color.green);
@@ -111,5 +146,19 @@ public class UIView extends JPanel {
         timer.stop();
     }
 
+    public void saveState() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+            writer.write("---UIVIEW---" + "\n");
+            writer.write("Duration: " + Duration.between(startTime, Instant.now()).plus(existingDuration) + "\n");
+            writer.close();
+            System.out.println("Content successfully written to " + "savedGameState.txt");
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    public void setExistingDuration(String duration) {
+        existingDuration = Duration.parse(duration);
+    }
 
 }

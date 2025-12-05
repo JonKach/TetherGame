@@ -2,6 +2,7 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Lava;
 import org.cis1200.tether.Player;
+import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.utility.SpriteSheetLoader;
 import org.cis1200.tether.utility.Sprites;
@@ -11,9 +12,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,7 +49,10 @@ public class World extends JPanel {
 
     private UIView ui;
 
-    public World(String filename, int p1x, int p1y, int p2x, int p2y, UIView uiView) {
+    private static boolean unlockedDoors = false;
+
+    public World(String filename, double p1x, double p1y, double p2x, double p2y,
+                 double lavaX, boolean unlockedDoors, UIView uiView) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         timer = new Timer(INTERVAL, e -> tick());
@@ -59,6 +62,8 @@ public class World extends JPanel {
 
         this.ui = uiView;
         World.tetherColor = "basic";
+
+        World.unlockedDoors = unlockedDoors;
 
         try {
             terrainSpritesheet = SpriteSheetLoader.loadImage("files/terrain.png");
@@ -76,7 +81,7 @@ public class World extends JPanel {
         p1.setPair(p2);
         p2.setPair(p1);
 
-        lava = new Lava(-1900, 0, 1100, 500, 10);
+        lava = new Lava(lavaX, 0, 1100, 500, 10);
         lava.setApplyGravity(false);
         lava.setApplyFriction(false);
         lava.setVx(1);
@@ -134,6 +139,7 @@ public class World extends JPanel {
     }
 
     public void tick() {
+        System.out.println("lava" + lava.getPx());
         if(p1Left) {
             p1.impulse(-10, 0);
         }
@@ -240,6 +246,9 @@ public class World extends JPanel {
                     switch (rowData[0]) {
                         case "O":
                             Door door = new Door(x * TILE_SIZE, y * TILE_SIZE, this);
+                            if (unlockedDoors) {
+                                door.unlockDoor();
+                            }
                             doors.add(door);
                             tiles[y][x] = door;
                             break;
@@ -267,6 +276,11 @@ public class World extends JPanel {
         } else {
             this.ui.displayLost();
         }
+        ui.stopUIView();
+    }
+
+    public void stopLevelNoDisplay() {
+        timer.stop();
         ui.stopUIView();
     }
 
@@ -331,5 +345,38 @@ public class World extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(1000, 500);
+    }
+
+    public void saveState() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+            writer.write("---WORLD---" + "\n");
+            writer.write("tetherColor: " + tetherColor + "\n");
+            writer.write("LavaX: " + lava.getPx() + "\n");
+            writer.write("P1X: " + p1.getPx() + "\n");
+            writer.write("P1Y: " + p1.getPy() + "\n");
+            writer.write("P2X: " + p2.getPx() + "\n");
+            writer.write("P2Y: " + p2.getPy() + "\n");
+            writer.write("unlockedDoors: " + unlockedDoors + "\n");
+            writer.close();
+            System.out.println("Content successfully written to " + "savedGameState.txt");
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+        p1.saveState();
+        p2.saveState();
+    }
+
+    public void loadP1Info(boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
+                           boolean untethered, HashSet<PowerUp> powerUps) {
+        p1.loadInfo(isGrounded, doubleJump, dashAvailable, upReleased, untethered, powerUps);
+    }
+
+    public void loadP2Info(boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
+                           boolean untethered, HashSet<PowerUp> powerUps) {
+        p2.loadInfo(isGrounded, doubleJump, dashAvailable, upReleased, untethered, powerUps);
+    }
+
+    public static void setUnlockedDoors(boolean unlockedDoors) {
+        World.unlockedDoors = unlockedDoors;
     }
 }

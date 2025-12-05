@@ -37,7 +37,7 @@ public class LevelsScreen extends JPanel {
         loadFromSaveButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                screenManager.setScreen(screen); TODO
+                screenManager.loadSave();
             }
 
             @Override
