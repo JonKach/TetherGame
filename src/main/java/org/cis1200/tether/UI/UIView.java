@@ -42,6 +42,7 @@ public class UIView extends JPanel {
         setOpaque(false);
         setLayout(null);
         setBounds(0, 0, 1000, 500);
+        StatusPanel.setStatusLabel("Playing...");
         existingDuration = Duration.ZERO;
         saveIcon = SpriteSheetLoader.loadImage("files/saveIcon.png");
         save = new UIButton(950, 10, 50, 40, 5, saveIcon, null);
@@ -123,6 +124,7 @@ public class UIView extends JPanel {
         currentCard = new UICard(275, 125, 400, 200, "You Lose!", true, screenManager);
         cardEnabled = true;
         this.add(currentCard);
+        StatusPanel.setStatusLabel("Paused");
         this.revalidate();
         this.repaint();
     }
@@ -130,6 +132,7 @@ public class UIView extends JPanel {
         currentCard = new UICard(275, 125, 400, 200, "You Win!", false, screenManager);
         cardEnabled = true;
         this.add(currentCard);
+        StatusPanel.setStatusLabel("Paused");
         this.revalidate();
         this.repaint();
     }

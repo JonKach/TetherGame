@@ -87,14 +87,6 @@ public class UICard extends JPanel {
         return new Dimension(width, height);
     }
 
-    public void moveCard(int x, int y) {
-        this.x += x;
-        this.y += y;
-        setBounds(this.x, this.y, this.width, this.height);
-        this.revalidate();
-        this.repaint();
-    }
-
     public void setY(int y) {
         this.y = y;
     }

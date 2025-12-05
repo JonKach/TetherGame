@@ -141,7 +141,6 @@ public class Player extends PhysicsObject {
                 setApplyGravity(false);
             } else if (direction[1] == Direction.UP && topCollided) {
                 setVy(0);
-                System.out.println("run");
             } else {
                 this.isGrounded = false;
             }
@@ -155,7 +154,9 @@ public class Player extends PhysicsObject {
 //        for (PowerUp powerUp : powerUps) {
 //
 //        }
-        ui.displayPowerUps(powerUps, playerName);
+        if(ui != null) {
+            ui.displayPowerUps(powerUps, playerName);
+        }
         update(true);
     }
 
@@ -277,5 +278,13 @@ public class Player extends PhysicsObject {
         this.upReleased = upReleased;
         this.isUntethered = untethered;
         this.powerUps = powerUps;
+    }
+
+    public void addPowerUp(PowerUp powerUp) {
+        powerUps.add(powerUp);
+    }
+
+    public boolean getDashAvailable() {
+        return dashAvailable;
     }
 }

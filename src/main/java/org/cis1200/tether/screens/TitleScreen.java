@@ -64,7 +64,14 @@ public class TitleScreen extends JPanel {
                                 "\n" +
                                 "Additional Tips:\n" +
                                 "- Press red buttons to open stone doors! \n" +
-                                "- Collect power ups!\n");
+                                "- Collect power ups!\n" +
+                                "   - Jump once while in the air using Double Jump Power Up\n" +
+                                "   - Player 1 can press E and Player 2 can press M to dash using " +
+                                "the Dash Power Up\n" +
+                                "   - Players can move without being pulled back by the tether using the Untether " +
+                                "Power Up"
+
+                        );
             }
 
             @Override

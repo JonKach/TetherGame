@@ -1,6 +1,7 @@
 package org.cis1200.tether;
 
 import org.cis1200.tether.UI.BackgroundPanel;
+import org.cis1200.tether.UI.StatusPanel;
 import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.screens.LevelsScreen;
 import org.cis1200.tether.screens.TitleScreen;
@@ -34,7 +35,6 @@ public class ScreenManager extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("yo");
     }
 
     public void setScreen(Screen screen) {
@@ -43,6 +43,7 @@ public class ScreenManager extends JPanel {
             case TITLE_SCREEN:
                 currScreen = new TitleScreen(this);
                 currentScreenEnum = Screen.TITLE_SCREEN;
+                StatusPanel.setStatusLabel("Running...");
                 SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
                 break;
             case LEVEL_1:
@@ -58,6 +59,7 @@ public class ScreenManager extends JPanel {
                 currentScreenEnum = Screen.LEVEL_3;
                 break;
             case LEVELS_SCREEN:
+                StatusPanel.setStatusLabel("Running...");
                 currScreen = new LevelsScreen(this);
                 currentScreenEnum = Screen.LEVELS_SCREEN;
                 SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
@@ -149,6 +151,7 @@ public class ScreenManager extends JPanel {
     }
 
     public void stopGame() {
+        StatusPanel.setStatusLabel("Paused");
         currentWorld.stopLevelNoDisplay();
     }
 
