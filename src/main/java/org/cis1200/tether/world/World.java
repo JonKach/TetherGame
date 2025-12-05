@@ -27,17 +27,18 @@ public class World extends JPanel {
     public static final int INTERVAL = 20;
     public static final int TETHER_DIST = 200;
     private Tile[][] tiles = new Tile[10][20]; //benefit of 2d is that I can check collisions nearby not all
-    private HashSet<PowerUp> powerUps = new HashSet<>();
 
     Player p1;
     private boolean p1Left = false;
     private boolean p1Right = false;
     private boolean p1Up = false;
+    private boolean p1UpReleased = false;
 
     Player p2;
     private boolean p2Left = false;
     private boolean p2Right = false;
     private boolean p2Up = false;
+    private boolean p2UpReleased = false;
 
     Lava lava;
 
@@ -66,8 +67,10 @@ public class World extends JPanel {
 
         createLevel(filename);
 
-        p1 = new Player(p1x, p1y, 30, 32, 10, Color.RED, tiles, Sprites.p1RightSprite, Sprites.p1LeftSprite);
-        p2 = new Player(p2x, p2y, 30, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite, Sprites.p2LeftSprite);
+        p1 = new Player(p1x, p1y, 30, 32, 10, Color.RED, tiles, Sprites.p1RightSprite,
+                Sprites.p1LeftSprite, "P1", ui);
+        p2 = new Player(p2x, p2y, 30, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite,
+                Sprites.p2LeftSprite, "P2", ui);
         p1.setPair(p2);
         p2.setPair(p1);
 
@@ -110,6 +113,7 @@ public class World extends JPanel {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     p1Up = false;
+                    p1UpReleased = true;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_A) {
                     p2Left = false;
@@ -118,6 +122,7 @@ public class World extends JPanel {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_W) {
                     p2Up = false;
+                    p2UpReleased = true;
                 }
             }
 
@@ -133,7 +138,9 @@ public class World extends JPanel {
             p1.impulse(10, 0);
         }
         if(p1Up) {
+            p1.setUpReleased(p1UpReleased);
             p1.jump();
+            p1UpReleased = false;
         }
         if(p2Left) {
             p2.impulse(-10, 0);
@@ -142,7 +149,9 @@ public class World extends JPanel {
             p2.impulse(10, 0);
         }
         if(p2Up) {
+            p2.setUpReleased(p2UpReleased);
             p2.jump();
+            p2UpReleased = false;
         }
         lava.update(false);
         p1.tick();
@@ -187,10 +196,6 @@ public class World extends JPanel {
                                 color = new Color(126, 200, 80);
                                 createTile(row, col, false, color, Sprites.grassSprite, false);
                                 break;
-                            case "D":
-                                color = new Color(131, 101, 57);
-                                createTile(row, col, false, color, null, false);
-                                break;
                             case "W":
                                 color = new Color(210, 180, 140);
                                 createTile(row, col, false, color, Sprites.wallSprite, false);
@@ -206,6 +211,11 @@ public class World extends JPanel {
                             case "F":
                                 Flag flag = new Flag(col * TILE_SIZE, row * TILE_SIZE, this);
                                 tiles[row][col] = flag;
+                                break;
+                            case "D":
+                                DoubleJumpTile dj = new DoubleJumpTile(col * TILE_SIZE,
+                                        row * TILE_SIZE, this);
+                                tiles[row][col] = dj;
                                 break;
                             default:
                                 continue;

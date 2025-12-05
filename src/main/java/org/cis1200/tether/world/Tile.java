@@ -1,10 +1,11 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
 public class Tile {
 
@@ -52,9 +53,17 @@ public class Tile {
         int boxLeft = this.x;
         int boxRight = this.x + width;
 
-        if((playerY + playerHeight - boxTop > 10 && passableFromBelow) || !visible) {
-            return new Collision(false, false, false, false, false);
+//        if((playerY + playerHeight - boxTop > 10 && passableFromBelow) || !visible) {
+//            return new Collision(false, false, false, false,
+//                    false, false);
+//        }
+        if((playerY - vy + playerHeight - boxTop > 5 &&
+                passableFromBelow) || !visible) {
+//            System.out.println(vy);
+            return new Collision(false, false, false, false,
+                    false, false);
         }
+
 
         boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
@@ -71,14 +80,14 @@ public class Tile {
         if (sideCollided) {
             if (Math.abs(playerX - boxRight) <= Math.abs(playerX + playerWidth -  boxLeft)) {
                 return new Collision(xCollided && yCollided, true, false,
-                         topCollided, false);
+                         topCollided, false, false);
             } else {
                 return new Collision(xCollided && yCollided, false, true,
-                         topCollided, false);
+                         topCollided, false, false);
             }
         }
         return new Collision(xCollided && yCollided, false, false,
-                 topCollided, false);
+                 topCollided, false, false);
 
 //        return new Collision(xCollided && yCollided, sideCollided, isGround ||
 //                collDirection[1] == Direction.DOWN, biggerXCollided && getColor().equals(new Color(210, 180, 140)));
@@ -88,7 +97,7 @@ public class Tile {
         this.visible = visible;
     }
 
-    public void onCollide(Direction[] colDirection) {
+    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
         //does nothing by default, for dynamic effects (button pushing, doors, etc.) and powerup collection
     }
 

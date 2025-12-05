@@ -18,6 +18,7 @@ public class Sprites {
     public static BufferedImage p1RightSprite;
     public static BufferedImage p1LeftSprite;
     public static Image flagSprite;
+    public static BufferedImage doubleJumpSprite;
 
     public static void createAllSprites(BufferedImage spritesheet) {
         grassSprite = spritesheet.getSubimage(96, 0, 48, 48);
@@ -34,6 +35,7 @@ public class Sprites {
             p1RightSprite = p1;
             p1LeftSprite = flipHorizontally(p1);
             flagSprite = SpriteSheetLoader.loadImage("files/flag.png");
+            doubleJumpSprite = SpriteSheetLoader.loadImage("files/DoubleJump.png");
         } catch (Exception e) {
             throw new RuntimeException("could not load terrain spritesheet");
         }

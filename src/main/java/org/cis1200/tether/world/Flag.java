@@ -1,10 +1,12 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
+import java.util.HashSet;
 
 public class Flag extends Tile {
 
@@ -28,11 +30,11 @@ public class Flag extends Tile {
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
 
         return new Collision(xCollided && yCollided, false, false,
-                false, false);
+                false, false, false);
     }
 
     @Override
-    public void onCollide(Direction[] colDirection) {
+    public void onCollide(Direction[] colDirection,  HashSet<PowerUp> playerPowerUps) {
         getWorld().stopLevel(true);
     }
 }

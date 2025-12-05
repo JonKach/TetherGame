@@ -1,5 +1,6 @@
 package org.cis1200.tether;
 
+import org.cis1200.tether.UI.UIView;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.PhysicsObject;
 import org.cis1200.tether.world.Tile;
@@ -7,6 +8,9 @@ import org.cis1200.tether.world.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashSet;
 
 public class Player extends PhysicsObject {
 
@@ -20,13 +24,24 @@ public class Player extends PhysicsObject {
     private BufferedImage playerRightSprite;
     private BufferedImage playerLeftSprite;
 
+    private HashSet<PowerUp> powerUps;
+    private boolean isOnDoubleJump;
+    private boolean upReleased = false;
+
+    private String playerName;
+    private UIView ui;
+
     public Player(int px, int py, int width, int height, int mass, Color color, Tile[][] tiles,
-                  BufferedImage playerRightSprite, BufferedImage playerLeftSprite) {
+                  BufferedImage playerRightSprite, BufferedImage playerLeftSprite, String playerName, UIView ui) {
         super(px, py, width, height, mass);
         this.tiles = tiles;
         this.color = color;
         this.playerRightSprite = playerRightSprite;
         this.playerLeftSprite = playerLeftSprite;
+        this.isOnDoubleJump = false;
+        this.playerName = playerName;
+        this.ui = ui;
+        powerUps = new HashSet<>();
     }
 
     public void setPair(Player other) {
@@ -89,9 +104,20 @@ public class Player extends PhysicsObject {
             this.isGrounded = false;
             setApplyGravity(true);
         }
-//        if (!sideCollided && collided) { //good to move x on its own but y causes problems
-//            setVy(0);
-//        }
+
+        for (PowerUp powerUp : powerUps) {
+            if (powerUp.secondsLeft() > 0) {
+                switch(powerUp.getType()) {
+                    case DOUBLE_JUMP:
+                        isOnDoubleJump = true;
+                        break;
+                }
+            } else {
+                powerUps.remove(powerUp);
+                isOnDoubleJump = false;
+            }
+        }
+        ui.displayPowerUps(powerUps, playerName);
         update(true);
     }
 
@@ -119,14 +145,14 @@ public class Player extends PhysicsObject {
                     leftCollided = collision.isLeftCollided() || leftCollided;
                     rightCollided = collision.isRightCollided() || rightCollided;
                     debug = collision.getDebug() || debug;
-                    if (collision.isCollided()) {
-                        tiles[i][j].onCollide(getDirection());
+                    if (collision.isCollided() || collision.isPowerUpCollided()) {
+                        tiles[i][j].onCollide(getDirection(), powerUps);
                         topCollided = collision.isTopCollided() || topCollided;
                     }
                 }
             }
         }
-        return new Collision(collided, leftCollided, rightCollided, topCollided, debug);
+        return new Collision(collided, leftCollided, rightCollided, topCollided, false, debug);
     }
 
     private void tether() {
@@ -143,7 +169,21 @@ public class Player extends PhysicsObject {
             isGrounded = false;
             setApplyGravity(true);
             impulse(0, -80);
+        } else if(isOnDoubleJump && upReleased) {
+            for(PowerUp powerUp : powerUps) {
+                if (powerUp.getType() == PowerUp.PowerUpType.DOUBLE_JUMP) {
+                    powerUp.consume();
+                }
+            }
+            isOnDoubleJump = false;
+            setApplyGravity(true);
+            setVy(0);
+            impulse(0, -180);
         }
+    }
+
+    public void setUpReleased(boolean upReleased) {
+        this.upReleased = upReleased;
     }
 
     private double dist(double x1, double y1, double x2, double y2) {

@@ -1,11 +1,13 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ButtonTile extends Tile {
 
@@ -26,7 +28,8 @@ public class ButtonTile extends Tile {
         int boxRight = getX() + getWidth() - 7;
 
         if((playerY + playerHeight - boxTop > 10)) {
-            return new Collision(false, false, false, false, false);
+            return new Collision(false, false, false, false,
+                    false, false);
         }
 
         boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
@@ -40,18 +43,18 @@ public class ButtonTile extends Tile {
         if (sideCollided) {
             if (Math.abs(playerX - boxRight) <= Math.abs(playerX + playerWidth -  boxLeft)) {
                 return new Collision(xCollided && yCollided, true, false,
-                        topCollided, false);
+                        topCollided, false, false);
             } else {
                 return new Collision(xCollided && yCollided, false, true,
-                        topCollided, false);
+                        topCollided, false, false);
             }
         }
         return new Collision(xCollided && yCollided, false, false,
-                topCollided, false);
+                topCollided, false, false);
     }
 
     @Override
-    public void onCollide(Direction[] colDirection) {
+    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
         if(colDirection[1] == Direction.DOWN) {
             for (Door door : linkedDoors) {
                 door.unlockDoor();

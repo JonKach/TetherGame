@@ -1,9 +1,11 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
+import java.util.HashSet;
 
 public class Door extends Tile {
 
@@ -13,7 +15,7 @@ public class Door extends Tile {
     }
 
     @Override
-    public void onCollide(Direction[] colDirection) {
+    public void onCollide(Direction[] colDirection,  HashSet<PowerUp> playerPowerUps) {
         //does nothing on collision, maybe add a message later
     }
 
