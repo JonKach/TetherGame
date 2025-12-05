@@ -36,7 +36,16 @@ public class ScreenManager extends JPanel {
                 SwingUtilities.invokeLater(currScreen::requestFocusInWindow);
                 break;
             case LEVEL_1:
-                newLevel("files/level_1.txt");
+                newLevel("files/level_1.txt", 50, 350, 60, 350);
+                currentScreenEnum = Screen.LEVEL_1;
+                break;
+            case LEVEL_2:
+                newLevel("files/level_2.txt", 50, 350, 60, 350);
+                currentScreenEnum = Screen.LEVEL_2;
+                break;
+            case LEVEL_3:
+                newLevel("files/level_3.txt", 50, 350, 60, 350);
+                currentScreenEnum = Screen.LEVEL_3;
                 break;
             case LEVELS_SCREEN:
                 currScreen = new LevelsScreen(this);
@@ -54,7 +63,7 @@ public class ScreenManager extends JPanel {
         repaint();
     }
 
-    private void newLevel(String filename) {
+    private void newLevel(String filename, int p1x, int p1y, int p2x, int p2y) {
         currScreen = new BackgroundPanel(BackgroundPanel.Background.BROWN);
         currScreen.setLayout(new OverlayLayout(currScreen));
         currentScreenEnum = Screen.LEVEL_1;
@@ -64,7 +73,7 @@ public class ScreenManager extends JPanel {
         ui.setAlignmentX(0.5f);
         ui.setAlignmentY(0.5f);
 
-        final World world = new World(filename, 50, 350, 60, 350, ui);
+        final World world = new World(filename, p1x, p1y, p2x, p2y, ui);
         world.setPreferredSize(new Dimension(1000, 500));
         world.setAlignmentX(0.5f);
         world.setAlignmentY(0.5f);
@@ -90,5 +99,18 @@ public class ScreenManager extends JPanel {
         LEVEL_1,
         LEVEL_2,
         LEVEL_3,
+    }
+
+    public Screen getNextLevel() {
+        switch (getScreen()) {
+            case LEVEL_1:
+                return Screen.LEVEL_2;
+            case LEVEL_2:
+                return Screen.LEVEL_3;
+            case LEVEL_3:
+                return Screen.TITLE_SCREEN;
+            default:
+                return Screen.DEFAULT;
+        }
     }
 }

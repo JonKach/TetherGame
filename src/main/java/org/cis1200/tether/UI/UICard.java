@@ -36,19 +36,9 @@ public class UICard extends JPanel {
                 SpriteSheetLoader.loadImage("files/Restart.png"), null);
         UIButton nextButton = new UIButton(200, 130, 50, 50, 3,
                 SpriteSheetLoader.loadImage("files/Next.png"), null);
-        switch(screenManager.getScreen()) {
-            case LEVEL_1:
-                setupLevelButton(nextButton, ScreenManager.Screen.LEVEL_2, false);
-                setupLevelButton(retryButton, ScreenManager.Screen.LEVEL_1, true);
-                break;
-            case LEVEL_2:
-                setupLevelButton(nextButton, ScreenManager.Screen.LEVEL_3, false);
-                setupLevelButton(retryButton, ScreenManager.Screen.LEVEL_2, true);
-                break;
-            case LEVEL_3:
-                setupLevelButton(nextButton, ScreenManager.Screen.TITLE_SCREEN, false);
-                setupLevelButton(retryButton, ScreenManager.Screen.LEVEL_3, true);
-        }
+        System.out.println(screenManager.getScreen());
+        setupLevelButton(nextButton, screenManager.getNextLevel(), false);
+        setupLevelButton(retryButton, screenManager.getScreen(), true);
         this.add(retryButton);
         this.add(nextButton);
     }
