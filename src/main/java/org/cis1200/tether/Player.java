@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Player extends PhysicsObject {
 
@@ -25,8 +26,13 @@ public class Player extends PhysicsObject {
     private BufferedImage playerLeftSprite;
 
     private HashSet<PowerUp> powerUps;
+
     private boolean isOnDoubleJump;
     private boolean upReleased = false;
+
+    private boolean dashAvailable = false;
+
+    private boolean isUntethered = false;
 
     private String playerName;
     private UIView ui;
@@ -63,7 +69,43 @@ public class Player extends PhysicsObject {
     }
 
     public void tick() {
-        tether();
+
+        Iterator<PowerUp> powerUpIterator = powerUps.iterator();
+        while (powerUpIterator.hasNext()) {
+            PowerUp powerUp = powerUpIterator.next();
+            if (powerUp.secondsLeft() > 0) {
+                switch(powerUp.getType()) {
+                    case DOUBLE_JUMP:
+                        isOnDoubleJump = true;
+                        break;
+                    case DASH:
+                        dashAvailable = true;
+                        break;
+                    case UNTETHER:
+                        isUntethered = true;
+                        World.setTetherColor(playerName);
+                        break;
+                }
+            } else {
+                powerUpIterator.remove();
+                switch(powerUp.getType()) {
+                    case DOUBLE_JUMP:
+                        isOnDoubleJump = false;
+                        break;
+                    case DASH:
+                        dashAvailable = false;
+                        break;
+                    case UNTETHER:
+                        isUntethered = false;
+                        World.setTetherColor(playerName + "basic");
+                        break;
+                }
+            }
+        }
+
+        if (!isUntethered) {
+            tether();
+        }
         Direction[] direction = getDirection();
         double futureX = getPx() + getVx();
         Collision xCollision = collisionCheck(futureX, getPy(), getWidth(), getHeight(), getVx(), 0);
@@ -105,18 +147,11 @@ public class Player extends PhysicsObject {
             setApplyGravity(true);
         }
 
-        for (PowerUp powerUp : powerUps) {
-            if (powerUp.secondsLeft() > 0) {
-                switch(powerUp.getType()) {
-                    case DOUBLE_JUMP:
-                        isOnDoubleJump = true;
-                        break;
-                }
-            } else {
-                powerUps.remove(powerUp);
-                isOnDoubleJump = false;
-            }
-        }
+
+
+//        for (PowerUp powerUp : powerUps) {
+//
+//        }
         ui.displayPowerUps(powerUps, playerName);
         update(true);
     }
@@ -179,6 +214,22 @@ public class Player extends PhysicsObject {
             setApplyGravity(true);
             setVy(0);
             impulse(0, -180);
+        }
+    }
+
+    public void dash() {
+        if(dashAvailable) {
+            for(PowerUp powerUp : powerUps) {
+                if (powerUp.getType() == PowerUp.PowerUpType.DASH) {
+                    powerUp.consume();
+                }
+            }
+            dashAvailable = false;
+            if (getDirection()[0] == Direction.LEFT) {
+                impulse(-200, 0);
+            } else {
+                impulse(200, 0);
+            }
         }
     }
 

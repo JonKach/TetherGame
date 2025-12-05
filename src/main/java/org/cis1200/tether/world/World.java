@@ -27,6 +27,7 @@ public class World extends JPanel {
     public static final int INTERVAL = 20;
     public static final int TETHER_DIST = 200;
     private Tile[][] tiles = new Tile[10][20]; //benefit of 2d is that I can check collisions nearby not all
+    private static String tetherColor = "basic";
 
     Player p1;
     private boolean p1Left = false;
@@ -57,6 +58,7 @@ public class World extends JPanel {
         setEnabled(true);
 
         this.ui = uiView;
+        World.tetherColor = "basic";
 
         try {
             terrainSpritesheet = SpriteSheetLoader.loadImage("files/terrain.png");
@@ -90,6 +92,12 @@ public class World extends JPanel {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     p1Up = true;
                 }
+                if(e.getKeyCode() == KeyEvent.VK_M) {
+                    p1.dash();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_E) {
+                    p2.dash();
+                }
                 if (e.getKeyCode() == KeyEvent.VK_A) {
                     p2Left = true;
                 } else if (e.getKeyCode() == KeyEvent.VK_D) {
@@ -97,11 +105,6 @@ public class World extends JPanel {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_W) {
                     p2Up = true;
-                }
-                if(e.getKeyCode() == KeyEvent.VK_G){
-                    timer.stop();
-                    uiView.displayLost();
-                    uiView.stopUIView();
                 }
             }
 
@@ -217,6 +220,14 @@ public class World extends JPanel {
                                         row * TILE_SIZE, this);
                                 tiles[row][col] = dj;
                                 break;
+                            case "A":
+                                DashTile dash = new DashTile(col * TILE_SIZE, row * TILE_SIZE, this);
+                                tiles[row][col] = dash;
+                                break;
+                            case "U":
+                                UntetherTile unt = new UntetherTile(col * TILE_SIZE, row * TILE_SIZE, this);
+                                tiles[row][col] = unt;
+                                break;
                             default:
                                 continue;
                         }
@@ -272,15 +283,49 @@ public class World extends JPanel {
         }
         p1.draw(g);
         p2.draw(g);
-        if(p1.getDist() >= World.TETHER_DIST - 20) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.BLACK);
+        switch(tetherColor) {
+            case "basic":
+                if(p1.getDist() >= World.TETHER_DIST - 20) {
+                    g.setColor(Color.RED);
+                } else {
+                    g.setColor(Color.BLACK);
+                }
+                break;
+            case "P1":
+                g.setColor(Color.green);
+                break;
+            case "P2":
+                g.setColor(Color.blue);
+                break;
+            case "both":
+                g.setColor(Color.cyan);
+                break;
+            default:
+                tetherColor = "basic";
+                break;
         }
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3.0f));
         g2d.drawLine((int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2 + 10,
                 (int) p2.getPx() + p2.getWidth() / 2, (int) p2.getPy() + p2.getHeight() / 2);
+    }
+
+    public static void setTetherColor(String playerName) {
+        System.out.println(tetherColor);
+        if (tetherColor.equals("both") &&  playerName.equals("P1basic")) {
+            tetherColor = "P2";
+        } else if (tetherColor.equals("both") && playerName.equals("P2basic")) {
+            tetherColor = "P1";
+        } else if (tetherColor.equals("both")) {
+            tetherColor = "both";
+        } else if(tetherColor.equals("P1") && playerName.equals("P2") || tetherColor.equals("P2") && playerName.equals("P1")) {
+            tetherColor = "both";
+        } else if (playerName.equals("P1") || playerName.equals("P2")) {
+            tetherColor = playerName;
+        } else if (tetherColor.equals("P1") && playerName.equals("P1basic") ||
+                tetherColor.equals("P2") && playerName.equals("P2basic")) {
+            tetherColor = "basic";
+        }
     }
 
     @Override
