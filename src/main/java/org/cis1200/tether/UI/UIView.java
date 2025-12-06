@@ -78,11 +78,6 @@ public class UIView extends JPanel {
     }
 
     private void tick() {
-        // if (cardEnabled && currentCard.getY() > (double) World.WORLD_HEIGHT / 2 -
-        // (double) currentCard.getHeight() / 2) {
-        // currentCard.moveCard(0, -20);
-        // System.out.println("yo2");
-        // }
         repaint();
     }
 

@@ -52,8 +52,6 @@ public class TitleScreen extends JPanel {
         instructions_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // screenManager.setScreen(ScreenManager.Screen.INSTRUCTIONS_SCREEN);
-                System.out.println("instructions");
                 JOptionPane.showMessageDialog(
                         TitleScreen.this,
                         "Welcome to Tethered!\n" +

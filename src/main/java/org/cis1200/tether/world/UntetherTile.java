@@ -1,6 +1,7 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.Player;
 import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
@@ -43,7 +44,7 @@ public class UntetherTile extends Tile {
     }
 
     @Override
-    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
-        playerPowerUps.add(new PowerUp(6, PowerUp.PowerUpType.UNTETHER));
+    public void onCollide(Direction[] colDirection, Player player) {
+        player.addPowerUp(new PowerUp(6, PowerUp.PowerUpType.UNTETHER));
     }
 }

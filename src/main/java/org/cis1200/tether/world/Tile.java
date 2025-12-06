@@ -1,6 +1,7 @@
 package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
+import org.cis1200.tether.Player;
 import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 
@@ -57,13 +58,8 @@ public class Tile {
         int boxLeft = this.x;
         int boxRight = this.x + width;
 
-        // if((playerY + playerHeight - boxTop > 10 && passableFromBelow) || !visible) {
-        // return new Collision(false, false, false, false,
-        // false, false);
-        // }
         if ((playerY - vy + playerHeight - boxTop > 5 &&
                 passableFromBelow) || !visible) {
-            // System.out.println(vy);
             return new Collision(
                     false, false, false, false,
                     false, false
@@ -113,7 +109,7 @@ public class Tile {
         this.visible = visible;
     }
 
-    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
+    public void onCollide(Direction[] colDirection, Player player) {
         // does nothing by default, for dynamic effects (button pushing, doors, etc.)
         // and powerup collection
     }

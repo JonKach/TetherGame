@@ -43,7 +43,6 @@ public class UICard extends JPanel {
                 200, 130, 50, 50, 3,
                 SpriteSheetLoader.loadImage("files/Next.png"), null
         );
-        System.out.println(screenManager.getScreen());
         setupLevelButton(nextButton, screenManager.getNextLevel(), false);
         setupLevelButton(retryButton, screenManager.getScreen(), true);
         this.add(retryButton);
