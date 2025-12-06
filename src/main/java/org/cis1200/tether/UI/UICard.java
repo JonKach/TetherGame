@@ -1,7 +1,6 @@
 package org.cis1200.tether.UI;
 
 import org.cis1200.tether.ScreenManager;
-import org.cis1200.tether.utility.PhysicsObject;
 import org.cis1200.tether.utility.SpriteSheetLoader;
 
 import javax.swing.*;

@@ -7,15 +7,13 @@ import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class DoubleJumpTile extends Tile {
 
     public DoubleJumpTile(int x, int y, World world) {
         super(
                 x, y + World.TILE_SIZE - 40, 50, 40, false,
-                new Color(255, 71, 76), Sprites.doubleJumpSprite, true, world
+                new Color(255, 71, 76), Sprites.getDoubleJumpSprite(), true, world
         );
     }
 

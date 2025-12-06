@@ -2,19 +2,17 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
 import org.cis1200.tether.Player;
-import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
-import java.util.HashSet;
 
 public class Flag extends Tile {
 
     public Flag(int x, int y, World world) {
         super(
                 x + 15, y + World.TILE_SIZE, World.TILE_SIZE, World.TILE_SIZE, false,
-                new Color(0, 255, 0), Sprites.flagSprite, true, world
+                new Color(0, 255, 0), Sprites.getFlagSprite(), true, world
         );
     }
 

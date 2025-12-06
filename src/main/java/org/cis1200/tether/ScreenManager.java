@@ -10,8 +10,6 @@ import org.cis1200.tether.world.World;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -250,6 +248,8 @@ public class ScreenManager extends JPanel {
             case "UNTETHER":
                 playerPowerUps.add(new PowerUp(6, PowerUp.PowerUpType.UNTETHER));
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + powerUp);
         }
     }
 }

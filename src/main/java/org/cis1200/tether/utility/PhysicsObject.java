@@ -29,7 +29,7 @@ public abstract class PhysicsObject {
     private double fy;
 
     /* Mass */
-    private final double MASS;
+    private final double mass;
 
     /*
      * Upper bounds of the area in which the object can be positioned. Maximum
@@ -48,7 +48,7 @@ public abstract class PhysicsObject {
     public PhysicsObject(
             double px, double py, int width, int height, int mass
     ) {
-        MASS = mass;
+        this.mass = mass;
         this.vx = 0;
         this.vy = 0;
         this.fx = 0;
@@ -150,8 +150,8 @@ public abstract class PhysicsObject {
      * outside its bounds by clipping.
      */
     public void update(boolean clip) {
-        this.vx += fx / MASS;
-        this.vy += fy / MASS;
+        this.vx += fx / mass;
+        this.vy += fy / mass;
         this.fx = 0;
         this.fy = 0;
         if (applyGravity) {
@@ -184,8 +184,8 @@ public abstract class PhysicsObject {
         if ((leftRestrict && this.fx < 0) || (rightRestrict && this.fx > 0)) {
             this.fx = 0;
         }
-        this.vx += fx / MASS;
-        this.vy += fy / MASS;
+        this.vx += fx / mass;
+        this.vy += fy / mass;
         this.fx = 0;
         this.fy = 0;
         if (applyGravity) {

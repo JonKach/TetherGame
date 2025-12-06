@@ -2,11 +2,10 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
 import org.cis1200.tether.Player;
-import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 
 import java.awt.*;
-import java.util.HashSet;
+
 
 public class Tile {
 

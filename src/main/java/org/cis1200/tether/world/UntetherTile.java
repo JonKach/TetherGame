@@ -7,14 +7,13 @@ import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
-import java.util.HashSet;
 
 public class UntetherTile extends Tile {
 
     public UntetherTile(int x, int y, World world) {
         super(
                 x, y + World.TILE_SIZE - 40, 50, 40, false,
-                new Color(255, 71, 76), Sprites.untetherSprite, true, world
+                new Color(255, 71, 76), Sprites.getUntetherSprite(), true, world
         );
     }
 

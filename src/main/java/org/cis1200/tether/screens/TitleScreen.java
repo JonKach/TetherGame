@@ -16,8 +16,8 @@ public class TitleScreen extends JPanel {
 
     BufferedImage bgImage;
     TexturePaint texture;
-    UIButton play_button;
-    UIButton instructions_button;
+    UIButton playButton;
+    UIButton instructionsButton;
 
     public TitleScreen(ScreenManager screenManager) {
         this.screenManager = screenManager;
@@ -27,11 +27,11 @@ public class TitleScreen extends JPanel {
         texture = new TexturePaint(
                 bgImage, new Rectangle(0, 0, bgImage.getWidth(), bgImage.getHeight())
         );
-        play_button = new UIButton(
+        playButton = new UIButton(
                 400, 200, 200, 200, 10,
                 SpriteSheetLoader.loadImage("files/Play.png"), null
         );
-        play_button.addMouseListener(new MouseAdapter() {
+        playButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 screenManager.setScreen(ScreenManager.Screen.LEVELS_SCREEN);
@@ -39,30 +39,37 @@ public class TitleScreen extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                play_button.bounce(true);
+                playButton.bounce(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                play_button.bounce(false);
+                playButton.bounce(false);
             }
         });
-        this.add(play_button);
-        instructions_button = new UIButton(300, 400, 400, 50, 5, null, "Instructions");
-        instructions_button.addMouseListener(new MouseAdapter() {
+        this.add(playButton);
+        instructionsButton = new UIButton(300, 400, 400, 50, 5, null,
+                "Instructions");
+        instructionsButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(
                         TitleScreen.this,
                         "Welcome to Tethered!\n" +
                                 "\n" +
-                                "This is a 2-player hotseat platformer game, where you and a friend will race \n"
+                                "This is a 2-player hotseat platformer game, where you and a " +
+                                "friend will race \n"
                                 +
-                                "through a series of difficult levels, trying to avoid the ever encroaching wall \n"
+                                "through a series of difficult levels, trying to avoid the " +
+                                "ever encroaching wall \n"
                                 +
-                                "of lava behind you and the countless spikes in your path. The twist is that both \n"
+                                "of lava behind you and the countless spikes in" +
+                                " your path. The twist " +
+                                "is that both \n"
                                 +
-                                "players are tethered together, so don’t get too far apart! One player falling may \n"
+                                "players are tethered together, " +
+                                "so don’t get too far apart! One player " +
+                                "falling may \n"
                                 +
                                 "bring the other player down as well. \n" +
                                 "\n" +
@@ -76,7 +83,8 @@ public class TitleScreen extends JPanel {
                                 "   - Player 1 can press E and Player 2 can press M to dash using "
                                 +
                                 "the Dash Power Up\n" +
-                                "   - Players can move without being pulled back by the tether using the Untether "
+                                "   - Players can move without being pulled back by the " +
+                                "tether using the Untether "
                                 +
                                 "Power Up"
 
@@ -85,15 +93,15 @@ public class TitleScreen extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                instructions_button.bounce(true);
+                instructionsButton.bounce(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                instructions_button.bounce(false);
+                instructionsButton.bounce(false);
             }
         });
-        this.add(instructions_button);
+        this.add(instructionsButton);
     }
 
     @Override

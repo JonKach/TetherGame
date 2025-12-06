@@ -2,13 +2,11 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
 import org.cis1200.tether.Player;
-import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class ButtonTile extends Tile {
 
@@ -17,7 +15,7 @@ public class ButtonTile extends Tile {
     public ButtonTile(int x, int y, ArrayList<Door> linkedDoors, World world) {
         super(
                 x, y + World.TILE_SIZE - 40, 50, 40, false,
-                new Color(255, 71, 76), Sprites.buttonSprite, true, world
+                new Color(255, 71, 76), Sprites.getButtonSprite(), true, world
         );
         this.linkedDoors = linkedDoors;
     }

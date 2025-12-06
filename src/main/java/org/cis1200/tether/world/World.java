@@ -13,10 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 public class World extends JPanel {
@@ -27,7 +24,7 @@ public class World extends JPanel {
     public static final int INTERVAL = 20;
     public static final int TETHER_DIST = 200;
     private final Tile[][] tiles = new Tile[10][20]; // benefit of 2d is that I can check collisions
-                                               // nearby not all
+    // nearby not all
     private static String tetherColor = "basic";
 
     Player p1;
@@ -78,12 +75,12 @@ public class World extends JPanel {
         createLevel(filename);
 
         p1 = new Player(
-                p1x, p1y, 30, 32, 10, Color.RED, shallowCopy2DArray(tiles), Sprites.p1RightSprite,
-                Sprites.p1LeftSprite, "P1", ui
+                p1x, p1y, 30, 32, 10, Color.RED, shallowCopy2DArray(tiles),
+                Sprites.getP1RightSprite(), Sprites.getP1LeftSprite(), "P1", ui
         );
         p2 = new Player(
-                p2x, p2y, 30, 32, 10, Color.BLUE, shallowCopy2DArray(tiles), Sprites.p2RightSprite,
-                Sprites.p2LeftSprite, "P2", ui
+                p2x, p2y, 30, 32, 10, Color.BLUE, shallowCopy2DArray(tiles),
+                Sprites.getP2RightSprite(), Sprites.getP2LeftSprite(), "P2", ui
         );
         p1.setPair(p2);
         p2.setPair(p1);
@@ -216,15 +213,18 @@ public class World extends JPanel {
                         switch (rowData[col]) {
                             case "G":
                                 color = new Color(126, 200, 80);
-                                createTile(row, col, false, color, Sprites.grassSprite, false);
+                                createTile(row, col, false, color, Sprites.getGrassSprite(),
+                                        false);
                                 break;
                             case "W":
                                 color = new Color(210, 180, 140);
-                                createTile(row, col, false, color, Sprites.wallSprite, false);
+                                createTile(row, col, false, color, Sprites.getWallSprite(),
+                                        false);
                                 break;
                             case "P":
                                 color = new Color(148, 115, 82);
-                                createTile(row, col, true, color, Sprites.platformSprite, true);
+                                createTile(row, col, true, color, Sprites.getPlatformSprite(),
+                                        true);
                                 break;
                             case "S":
                                 Spike spike = new Spike(col * TILE_SIZE, row * TILE_SIZE, this);
@@ -372,9 +372,9 @@ public class World extends JPanel {
 
     private Tile[][] shallowCopy2DArray(Tile[][] tiles) {
         Tile[][] copy = new Tile[tiles.length][tiles[0].length];
-        for (int i=0; i<copy.length; i++) {
-            for (int j=0; j<copy[i].length; j++) {
-                copy[i][j]=tiles[i][j];
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[i].length; j++) {
+                copy[i][j] = tiles[i][j];
             }
         }
         return copy;

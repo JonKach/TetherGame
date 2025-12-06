@@ -39,8 +39,9 @@ public class PowerUp {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         PowerUp powerUp = (PowerUp) o;
         return type == powerUp.type;
     }

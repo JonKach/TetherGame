@@ -93,22 +93,34 @@ public class UIView extends JPanel {
         int lastX = 100;
         for (PowerUp powerUp : p1PowerUps) {
             switch (powerUp.getType()) {
-                case DOUBLE_JUMP -> g
-                        .drawString("P1 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
-                case DASH -> g.drawString("P1 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
-                case UNTETHER -> g
-                        .drawString("P1 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                case DOUBLE_JUMP:
+                    g.drawString("P1 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                case DASH:
+                    g.drawString("P1 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                case UNTETHER:
+                    g.drawString("P1 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + powerUp.getType());
             }
             lastX += 120;
         }
         g.setColor(Color.blue);
         for (PowerUp powerUp : p2PowerUps) {
             switch (powerUp.getType()) {
-                case DOUBLE_JUMP -> g
-                        .drawString("P2 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
-                case DASH -> g.drawString("P2 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
-                case UNTETHER -> g
-                        .drawString("P2 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                case DOUBLE_JUMP:
+                    g.drawString("P2 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                case DASH:
+                    g.drawString("P2 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                case UNTETHER:
+                    g.drawString("P2 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + powerUp.getType());
             }
             lastX += 120;
         }
@@ -121,7 +133,8 @@ public class UIView extends JPanel {
 
     public void displayLost() {
         this.removeAll();
-        currentCard = new UICard(275, 125, 400, 200, "You Lose!", true, screenManager);
+        currentCard = new UICard(275, 125, 400, 200, "You Lose!",
+                true, screenManager);
         cardEnabled = true;
         this.add(currentCard);
         StatusPanel.setStatusLabel("Paused");
@@ -131,7 +144,8 @@ public class UIView extends JPanel {
 
     public void displayWon() {
         this.removeAll();
-        currentCard = new UICard(275, 125, 400, 200, "You Win!", false, screenManager);
+        currentCard = new UICard(275, 125, 400, 200, "You Win!",
+                false, screenManager);
         cardEnabled = true;
         this.add(currentCard);
         StatusPanel.setStatusLabel("Paused");

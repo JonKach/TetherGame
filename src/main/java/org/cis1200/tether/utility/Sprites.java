@@ -7,20 +7,20 @@ import java.awt.image.BufferedImage;
 
 public class Sprites {
 
-    public static BufferedImage grassSprite;
-    public static BufferedImage wallSprite;
-    public static BufferedImage platformSprite;
-    public static BufferedImage spikeSprite;
-    public static BufferedImage doorSprite;
-    public static BufferedImage buttonSprite;
-    public static BufferedImage p2RightSprite;
-    public static BufferedImage p2LeftSprite;
-    public static BufferedImage p1RightSprite;
-    public static BufferedImage p1LeftSprite;
-    public static Image flagSprite;
-    public static BufferedImage doubleJumpSprite;
-    public static BufferedImage dashSprite;
-    public static BufferedImage untetherSprite;
+    private static BufferedImage grassSprite;
+    private static BufferedImage wallSprite;
+    private static BufferedImage platformSprite;
+    private static BufferedImage spikeSprite;
+    private static BufferedImage doorSprite;
+    private static BufferedImage buttonSprite;
+    private static BufferedImage p2RightSprite;
+    private static BufferedImage p2LeftSprite;
+    private static BufferedImage p1RightSprite;
+    private static BufferedImage p1LeftSprite;
+    private static Image flagSprite;
+    private static BufferedImage doubleJumpSprite;
+    private static BufferedImage dashSprite;
+    private static BufferedImage untetherSprite;
 
     public static void createAllSprites(BufferedImage spritesheet) {
         grassSprite = spritesheet.getSubimage(96, 0, 48, 48);
@@ -52,5 +52,61 @@ public class Sprites {
         tx.translate(-originalImage.getWidth(), 0); // Translate back to original position
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter(originalImage, null);
+    }
+
+    public static BufferedImage getGrassSprite() {
+        return grassSprite;
+    }
+
+    public static BufferedImage getWallSprite() {
+        return wallSprite;
+    }
+
+    public static BufferedImage getPlatformSprite() {
+        return platformSprite;
+    }
+
+    public static BufferedImage getSpikeSprite() {
+        return spikeSprite;
+    }
+
+    public static BufferedImage getDoorSprite() {
+        return doorSprite;
+    }
+
+    public static BufferedImage getButtonSprite() {
+        return buttonSprite;
+    }
+
+    public static BufferedImage getP2RightSprite() {
+        return p2RightSprite;
+    }
+
+    public static BufferedImage getP2LeftSprite() {
+        return p2LeftSprite;
+    }
+
+    public static BufferedImage getP1RightSprite() {
+        return p1RightSprite;
+    }
+
+    public static BufferedImage getP1LeftSprite() {
+        return p1LeftSprite;
+    }
+
+    public static Image getFlagSprite() {
+        return flagSprite;
+    }
+
+    public static BufferedImage getDoubleJumpSprite() {
+        return doubleJumpSprite;
+    }
+
+    public static BufferedImage getDashSprite() {
+        return dashSprite;
+    }
+
+    public static BufferedImage getUntetherSprite() {
+        return untetherSprite;
     }
 }

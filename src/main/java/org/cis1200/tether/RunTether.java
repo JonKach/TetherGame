@@ -1,9 +1,6 @@
 package org.cis1200.tether;
 
-import org.cis1200.tether.UI.BackgroundPanel;
 import org.cis1200.tether.UI.StatusPanel;
-import org.cis1200.tether.UI.UIView;
-import org.cis1200.tether.world.World;
 
 import javax.swing.*;
 import java.awt.*;

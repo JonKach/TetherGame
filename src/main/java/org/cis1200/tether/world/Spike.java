@@ -2,19 +2,17 @@ package org.cis1200.tether.world;
 
 import org.cis1200.tether.Direction;
 import org.cis1200.tether.Player;
-import org.cis1200.tether.PowerUp;
 import org.cis1200.tether.utility.Collision;
 import org.cis1200.tether.utility.Sprites;
 
 import java.awt.*;
-import java.util.HashSet;
 
 public class Spike extends Tile {
 
     public Spike(int x, int y, World world) {
         super(
                 x + 15, y + World.TILE_SIZE - 20, 20, 20, false,
-                new Color(255, 0, 0), Sprites.spikeSprite, true, world
+                new Color(255, 0, 0), Sprites.getSpikeSprite(), true, world
         );
     }
 
