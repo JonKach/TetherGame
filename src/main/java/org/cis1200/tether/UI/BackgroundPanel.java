@@ -26,8 +26,12 @@ public class BackgroundPanel extends JPanel {
             default:
                 bgImage = SpriteSheetLoader.loadImage("files/Blue.png");
         }
-        texture = new TexturePaint(bgImage, new Rectangle(0, 0,
-                bgImage.getWidth(), bgImage.getHeight()));
+        texture = new TexturePaint(
+                bgImage, new Rectangle(
+                        0, 0,
+                        bgImage.getWidth(), bgImage.getHeight()
+                )
+        );
         repaint();
     }
 

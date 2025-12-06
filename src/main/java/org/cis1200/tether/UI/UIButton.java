@@ -45,7 +45,10 @@ public class UIButton extends JPanel {
             if (!bounced) {
                 g.drawString(sentence, (width) / 2 - 5 * sentence.length(), (height) / 2 + 12);
             } else {
-                g.drawString(sentence, (width) / 2 - 5 * sentence.length() - bounce/2, (height) / 2 + 12 -  bounce/2);
+                g.drawString(
+                        sentence, (width) / 2 - 5 * sentence.length() - bounce / 2,
+                        (height) / 2 + 12 - bounce / 2
+                );
             }
         }
     }
@@ -67,8 +70,8 @@ public class UIButton extends JPanel {
         repaint();
     }
 
-//    @Override
-//    public Dimension getPreferredSize() {
-//        return new Dimension(width, height);
-//    }
+    // @Override
+    // public Dimension getPreferredSize() {
+    // return new Dimension(width, height);
+    // }
 }

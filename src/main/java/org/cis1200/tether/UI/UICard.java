@@ -21,7 +21,10 @@ public class UICard extends JPanel {
 
     boolean lost;
 
-    public UICard(int x, int y, int width, int height, String sentence, boolean lost, ScreenManager screenManager) {
+    public UICard(
+            int x, int y, int width, int height, String sentence, boolean lost,
+            ScreenManager screenManager
+    ) {
         setLayout(null);
         setBounds(x, y, width, height);
         this.screenManager = screenManager;
@@ -32,10 +35,14 @@ public class UICard extends JPanel {
         this.height = height;
         this.lost = lost;
 
-        UIButton retryButton = new UIButton(140, 130, 50, 50, 3,
-                SpriteSheetLoader.loadImage("files/Restart.png"), null);
-        UIButton nextButton = new UIButton(200, 130, 50, 50, 3,
-                SpriteSheetLoader.loadImage("files/Next.png"), null);
+        UIButton retryButton = new UIButton(
+                140, 130, 50, 50, 3,
+                SpriteSheetLoader.loadImage("files/Restart.png"), null
+        );
+        UIButton nextButton = new UIButton(
+                200, 130, 50, 50, 3,
+                SpriteSheetLoader.loadImage("files/Next.png"), null
+        );
         System.out.println(screenManager.getScreen());
         setupLevelButton(nextButton, screenManager.getNextLevel(), false);
         setupLevelButton(retryButton, screenManager.getScreen(), true);
@@ -43,11 +50,13 @@ public class UICard extends JPanel {
         this.add(nextButton);
     }
 
-    private void setupLevelButton(UIButton levelButton, ScreenManager.Screen screen, boolean retryButton) {
+    private void setupLevelButton(
+            UIButton levelButton, ScreenManager.Screen screen, boolean retryButton
+    ) {
         levelButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(!lost || retryButton) {
+                if (!lost || retryButton) {
                     screenManager.setScreen(screen);
                 } else {
                     JOptionPane.showMessageDialog(levelButton, "You have not unlocked this level!");
@@ -90,6 +99,7 @@ public class UICard extends JPanel {
     public void setY(int y) {
         this.y = y;
     }
+
     public void setX(int x) {
         this.x = x;
     }

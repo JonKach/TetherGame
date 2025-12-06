@@ -115,17 +115,81 @@ PennKey: 19054912
 
   ButtonTile.java:
     This class is an extension of Tile that is linked to a collection of Door tiles. When a player collides with this
-    tile it "unlocks" the door objects (makes them invisible)
+    tile it "unlocks" the door objects (makes them invisible).
 
+  DashTile.java:
+    This class is an extension of Tile that adds a Dash PowerUp to a Player object when it collides with it.
 
+  Door.java:
+    This class is an extension of Tile that has a .unlockDoor() method that hides the tile and turns off collision.
+
+  DoubleJumpTile.java:
+    This class is an extension of Tile that adds a Double Jump PowerUp to a Player object when it collides with it.
+
+  Flag.java:
+    This class is an extension of Tile that has a .onCollide() method that ends the current level with a win.
+
+  Spike.java:
+    This class is an extension of Tile that has a .onCollide() method that ends the current level with a loss.
+
+  Tile.java:
+    This class defines the framework for a basic tile object, including fields that store the position, dimension,
+    image, color, and properties (ex. passableFromBelow) for each tile. It is extended by other Tile objects with
+    custom methods.
+
+  UntetherTile.java:
+    This class is an extension of Tile that adds an Untether Jump PowerUp to a Player object when it collides with it.
+
+  World.java:
+    This class is an extension of JPanel that handles the creation, display, and running each level. It also creates
+    the Player objects and runs the .tick() function to update all game state.
+
+  Direction.java:
+    This enum stores the Direction components that represent the current motion direction of the player. It is used for
+    specific collision logic.
+
+  Lava.java:
+    This class is an extension of PhysicsObject that slowly encroaches from the left side of a level, ending the game
+    if any players collide with it.
+
+  Player.java:
+    This class is an extension of PhysicsObject that represents the primary playable character. It implements various
+    motion functions, along with collision checking and PowerUp logic.
+
+  PowerUp.java:
+    This class represents a PowerUp. It stores information about the PowerUp type and duration. It also has a function
+    to compute the time remaining before the PowerUp expires.
+
+  RunTether.java:
+    This class is the entry point of the game. It creates the JFrame and ScreenManager object.
+
+  ScreenManager.java:
+    This class is an extension of JPanel that controls the current screen displayed to the player.
+    Using the .changeScreen() function, it assigns new JPanel objects to the current screen,
+    changing the visuals currently displayed.
 
 - Were there any significant stumbling blocks while you were implementing your
   game (related to your design, or otherwise)?
 
+  Yes, the collision logic for the players was particularly challenging, as I had never implemented collisions from
+  scratch before. Additionally, the dynamic physics calculations made the implementation even more difficult,
+  as players could often clip through collision boxes entirely after gaining enough speed.
+
+  Another stumbling box I faced was the UI components, as making them switch screens,
+  have custom graphics, react to hovering, and absolutely positionable required making my own custom
+  UI display system, which was very time-consuming.
 
 - Evaluate your design. Is there a good separation of functionality? How well is
   private state encapsulated? What would you refactor, if given the chance?
 
+  My design has clear separation of functionality between systems like Physics, UI, and the World. However, many of
+  these pieces do have to work together and trigger functionality in other systems. Due to this, there is a lot of
+  shared resources between various systems; although, core pieces of game state, like the level layout and current
+  PowerUps are privately encapsulated.
+
+  If I had the chance to refactor, I would explore possibly moving collision logic to the Player.java class instead
+  of the Tile.java class. Although this would make overriding collision functionality more difficult, it would enable
+  me to make more of the game state private and have less sharing of references throughout the various systems.
 
 
 ========================
@@ -134,3 +198,9 @@ PennKey: 19054912
 
 - Cite any external resources (images, tutorials, etc.) that you may have used 
   while implementing your game.
+
+All sprites for the game were from the free-to-use Asset Pack found here:
+https://pixelfrog-assets.itch.io/pixel-adventure-1
+
+I also referenced many StackOverflow posts to learn about additional features of Java Swing as I built the game;
+however, no specific tutorials were referenced.

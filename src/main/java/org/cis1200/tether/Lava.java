@@ -13,8 +13,12 @@ public class Lava extends PhysicsObject {
     public Lava(double px, double py, int width, int height, int mass) {
         super(px, py, width, height, mass);
         BufferedImage lavaSprite = SpriteSheetLoader.loadImage("files/lava.png");
-        lavaTexture = new TexturePaint(lavaSprite, new Rectangle(0, 0,
-                128, 128));
+        lavaTexture = new TexturePaint(
+                lavaSprite, new Rectangle(
+                        0, 0,
+                        128, 128
+                )
+        );
     }
 
     @Override

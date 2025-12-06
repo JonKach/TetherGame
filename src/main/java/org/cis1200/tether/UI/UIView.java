@@ -47,24 +47,24 @@ public class UIView extends JPanel {
         saveIcon = SpriteSheetLoader.loadImage("files/saveIcon.png");
         save = new UIButton(950, 10, 50, 40, 5, saveIcon, null);
         save.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    screenManager.saveGameState();
-                    screenManager.stopGame();
-                    screenManager.setScreen(ScreenManager.Screen.TITLE_SCREEN);
-                    JOptionPane.showMessageDialog(UIView.this, "Game State Saved!");
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    save.bounce(true);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    save.bounce(false);
-                }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                screenManager.saveGameState();
+                screenManager.stopGame();
+                screenManager.setScreen(ScreenManager.Screen.TITLE_SCREEN);
+                JOptionPane.showMessageDialog(UIView.this, "Game State Saved!");
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                save.bounce(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                save.bounce(false);
+            }
+        }
         );
         this.add(save);
         timer = new Timer(World.INTERVAL, e -> tick());
@@ -78,10 +78,11 @@ public class UIView extends JPanel {
     }
 
     private void tick() {
-//        if (cardEnabled && currentCard.getY() > (double) World.WORLD_HEIGHT / 2 - (double) currentCard.getHeight() / 2) {
-//            currentCard.moveCard(0, -20);
-//            System.out.println("yo2");
-//        }
+        // if (cardEnabled && currentCard.getY() > (double) World.WORLD_HEIGHT / 2 -
+        // (double) currentCard.getHeight() / 2) {
+        // currentCard.moveCard(0, -20);
+        // System.out.println("yo2");
+        // }
         repaint();
     }
 
@@ -97,18 +98,22 @@ public class UIView extends JPanel {
         int lastX = 100;
         for (PowerUp powerUp : p1PowerUps) {
             switch (powerUp.getType()) {
-                case DOUBLE_JUMP -> g.drawString("P1 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
+                case DOUBLE_JUMP -> g
+                        .drawString("P1 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
                 case DASH -> g.drawString("P1 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
-                case UNTETHER -> g.drawString("P1 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                case UNTETHER -> g
+                        .drawString("P1 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
             }
             lastX += 120;
         }
         g.setColor(Color.blue);
         for (PowerUp powerUp : p2PowerUps) {
             switch (powerUp.getType()) {
-                case DOUBLE_JUMP -> g.drawString("P2 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
+                case DOUBLE_JUMP -> g
+                        .drawString("P2 Double Jump " + powerUp.secondsLeft() + "s", lastX, 20);
                 case DASH -> g.drawString("P2 Dash " + powerUp.secondsLeft() + "s", lastX, 20);
-                case UNTETHER -> g.drawString("P2 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
+                case UNTETHER -> g
+                        .drawString("P2 Untether " + powerUp.secondsLeft() + "s", lastX, 20);
             }
             lastX += 120;
         }
@@ -128,7 +133,9 @@ public class UIView extends JPanel {
         this.revalidate();
         this.repaint();
     }
+
     public void displayWon() {
+        this.removeAll();
         currentCard = new UICard(275, 125, 400, 200, "You Win!", false, screenManager);
         cardEnabled = true;
         this.add(currentCard);
@@ -150,9 +157,14 @@ public class UIView extends JPanel {
     }
 
     public void saveState() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("files/savedGameState.txt", true)
+        )) {
             writer.write("---UIVIEW---" + "\n");
-            writer.write("Duration: " + Duration.between(startTime, Instant.now()).plus(existingDuration) + "\n");
+            writer.write(
+                    "Duration: " + Duration.between(startTime, Instant.now()).plus(existingDuration)
+                            + "\n"
+            );
             writer.close();
             System.out.println("Content successfully written to " + "savedGameState.txt");
         } catch (IOException e) {

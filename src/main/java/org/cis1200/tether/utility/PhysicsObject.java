@@ -41,6 +41,7 @@ public abstract class PhysicsObject {
     private boolean applyGravity = true;
     private boolean applyFriction = true;
     private boolean leftRestrict = false, rightRestrict = false;
+
     /**
      * Constructor
      */
@@ -99,9 +100,9 @@ public abstract class PhysicsObject {
         } else {
             direction[0] = Direction.STANDSTILL;
         }
-        if(this.vy > 0) {
+        if (this.vy > 0) {
             direction[1] = Direction.DOWN;
-        } else if  (this.vy < 0) {
+        } else if (this.vy < 0) {
             direction[1] = Direction.UP;
         } else {
             direction[1] = Direction.STANDSTILL;
@@ -154,7 +155,7 @@ public abstract class PhysicsObject {
         this.fx = 0;
         this.fy = 0;
         if (applyGravity) {
-            this.vy += 1; //GRAVITY
+            this.vy += 1; // GRAVITY
         }
         if (applyFriction) {
             this.vx *= 0.9;
@@ -172,7 +173,7 @@ public abstract class PhysicsObject {
     public void impulse(int fx, int fy) {
         this.fx += fx;
         this.fy += fy;
-        if((leftRestrict && this.fx < 0) || (rightRestrict && this.fx > 0)) {
+        if ((leftRestrict && this.fx < 0) || (rightRestrict && this.fx > 0)) {
             this.fx = 0;
         }
     }
@@ -180,15 +181,15 @@ public abstract class PhysicsObject {
     public void impulseAndUpdateVelocity(int fx, int fy) {
         this.fx += fx;
         this.fy += fy;
-        if((leftRestrict && this.fx < 0) || (rightRestrict && this.fx > 0)) {
+        if ((leftRestrict && this.fx < 0) || (rightRestrict && this.fx > 0)) {
             this.fx = 0;
         }
         this.vx += fx / MASS;
         this.vy += fy / MASS;
         this.fx = 0;
         this.fy = 0;
-        if(applyGravity) {
-            this.vy += 1; //GRAVITY
+        if (applyGravity) {
+            this.vy += 1; // GRAVITY
         }
         this.vx *= 0.9;
         if (Math.abs(vx) < 0.1) {

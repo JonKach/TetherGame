@@ -1,26 +1,26 @@
 ---SCREEN---
-CurrentScreen: LEVEL_1
+CurrentScreen: LEVEL_2
 ---UIVIEW---
-Duration: PT1.873187S
+Duration: PT5.843408S
 ---WORLD---
-tetherColor: basic
-LavaX: -1822.0
-P1X: 50.0
-P1Y: 418.0
-P2X: 60.0
-P2Y: 418.0
+tetherColor: both
+LavaX: -1653.0
+P1X: 363.7779016102829
+P1Y: 168.0
+P2X: 125.74258380490978
+P2Y: 292.0
 unlockedDoors: false
 ---P1-INFO---
 P1isGrounded: true
 P1isOnDoubleJump: false
 P1dashAvailable: false
 P1upReleased: false
-P1isUntethered: false
-P1PowerUps: 
+P1isUntethered: true
+P1PowerUps: UNTETHER/
 ---P2-INFO---
-P2isGrounded: true
+P2isGrounded: false
 P2isOnDoubleJump: false
 P2dashAvailable: false
 P2upReleased: false
-P2isUntethered: false
-P2PowerUps: 
+P2isUntethered: true
+P2PowerUps: UNTETHER/

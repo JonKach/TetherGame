@@ -10,13 +10,15 @@ import java.util.HashSet;
 public class Door extends Tile {
 
     public Door(int x, int y, World world) {
-        super(x, y, World.TILE_SIZE, World.TILE_SIZE, false,
-                new Color(78, 80, 85), Sprites.doorSprite, true, world);
+        super(
+                x, y, World.TILE_SIZE, World.TILE_SIZE, false,
+                new Color(78, 80, 85), Sprites.doorSprite, true, world
+        );
     }
 
     @Override
-    public void onCollide(Direction[] colDirection,  HashSet<PowerUp> playerPowerUps) {
-        //does nothing on collision, maybe add a message later
+    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
+        // does nothing on collision, maybe add a message later
     }
 
     public void unlockDoor() {

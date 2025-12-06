@@ -11,29 +11,36 @@ import java.util.HashSet;
 
 public class DoubleJumpTile extends Tile {
 
-
     public DoubleJumpTile(int x, int y, World world) {
-        super(x, y + World.TILE_SIZE - 40, 50, 40, false,
-                new Color(255, 71, 76), Sprites.doubleJumpSprite, true, world);
+        super(
+                x, y + World.TILE_SIZE - 40, 50, 40, false,
+                new Color(255, 71, 76), Sprites.doubleJumpSprite, true, world
+        );
     }
 
     @Override
-    public Collision collidesWith(double playerX, double playerY, int playerWidth, int playerHeight, double vx,
-                                  double vy) {
+    public Collision collidesWith(
+            double playerX, double playerY, int playerWidth, int playerHeight, double vx,
+            double vy
+    ) {
         int boxTop = getY();
         int boxBottom = getY() + getHeight();
         int boxLeft = getX();
         int boxRight = getX() + getWidth();
 
-        boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
+        boolean xCollided = playerX + playerWidth >= boxLeft && playerX <= boxRight;
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
 
-        if(xCollided && yCollided) {
-            return new Collision(false, false, false, false,
-                    true, false);
+        if (xCollided && yCollided) {
+            return new Collision(
+                    false, false, false, false,
+                    true, false
+            );
         }
-        return new Collision(false, false, false, false,
-                false, false);
+        return new Collision(
+                false, false, false, false,
+                false, false
+        );
     }
 
     @Override

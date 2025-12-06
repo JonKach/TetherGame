@@ -20,13 +20,13 @@ import java.util.HashSet;
 
 public class World extends JPanel {
 
-
     public static final int WORLD_WIDTH = 1000;
     public static final int WORLD_HEIGHT = 500;
     public static final int TILE_SIZE = 50;
     public static final int INTERVAL = 20;
     public static final int TETHER_DIST = 200;
-    private Tile[][] tiles = new Tile[10][20]; //benefit of 2d is that I can check collisions nearby not all
+    private Tile[][] tiles = new Tile[10][20]; // benefit of 2d is that I can check collisions
+                                               // nearby not all
     private static String tetherColor = "basic";
 
     Player p1;
@@ -51,8 +51,10 @@ public class World extends JPanel {
 
     private static boolean unlockedDoors = false;
 
-    public World(String filename, double p1x, double p1y, double p2x, double p2y,
-                 double lavaX, boolean unlockedDoors, UIView uiView) {
+    public World(
+            String filename, double p1x, double p1y, double p2x, double p2y,
+            double lavaX, boolean unlockedDoors, UIView uiView
+    ) {
         setOpaque(false);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         timer = new Timer(INTERVAL, e -> tick());
@@ -74,10 +76,14 @@ public class World extends JPanel {
 
         createLevel(filename);
 
-        p1 = new Player(p1x, p1y, 30, 32, 10, Color.RED, tiles, Sprites.p1RightSprite,
-                Sprites.p1LeftSprite, "P1", ui);
-        p2 = new Player(p2x, p2y, 30, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite,
-                Sprites.p2LeftSprite, "P2", ui);
+        p1 = new Player(
+                p1x, p1y, 30, 32, 10, Color.RED, tiles, Sprites.p1RightSprite,
+                Sprites.p1LeftSprite, "P1", ui
+        );
+        p2 = new Player(
+                p2x, p2y, 30, 32, 10, Color.BLUE, tiles, Sprites.p2RightSprite,
+                Sprites.p2LeftSprite, "P2", ui
+        );
         p1.setPair(p2);
         p2.setPair(p1);
 
@@ -97,10 +103,10 @@ public class World extends JPanel {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     p1Up = true;
                 }
-                if(e.getKeyCode() == KeyEvent.VK_M) {
+                if (e.getKeyCode() == KeyEvent.VK_M) {
                     p1.dash();
                 }
-                if(e.getKeyCode() == KeyEvent.VK_E) {
+                if (e.getKeyCode() == KeyEvent.VK_E) {
                     p2.dash();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -140,24 +146,24 @@ public class World extends JPanel {
 
     public void tick() {
         System.out.println("lava" + lava.getPx());
-        if(p1Left) {
+        if (p1Left) {
             p1.impulse(-10, 0);
         }
-        if(p1Right) {
+        if (p1Right) {
             p1.impulse(10, 0);
         }
-        if(p1Up) {
+        if (p1Up) {
             p1.setUpReleased(p1UpReleased);
             p1.jump();
             p1UpReleased = false;
         }
-        if(p2Left) {
+        if (p2Left) {
             p2.impulse(-10, 0);
         }
-        if(p2Right) {
+        if (p2Right) {
             p2.impulse(10, 0);
         }
-        if(p2Up) {
+        if (p2Up) {
             p2.setUpReleased(p2UpReleased);
             p2.jump();
             p2UpReleased = false;
@@ -165,22 +171,30 @@ public class World extends JPanel {
         lava.update(false);
         p1.tick();
         p2.tick();
-//        System.out.println(p2.debug);
+        // System.out.println(p2.debug);
         repaint();
-        if(lava.getPx() + lava.getWidth() > p1.getPx() + 20 || lava.getPx() + lava.getWidth() > p2.getPx() + 20) {
+        if (lava.getPx() + lava.getWidth() > p1.getPx() + 20
+                || lava.getPx() + lava.getWidth() > p2.getPx() + 20) {
             stopLevel(false);
         }
     }
 
-    private void createTile(int row, int col, boolean passableFromBelow, Color color, BufferedImage img, boolean slab) {
-        if(slab) {
-            tiles[row][col] = new Tile(col * TILE_SIZE,
+    private void createTile(
+            int row, int col, boolean passableFromBelow, Color color, BufferedImage img,
+            boolean slab
+    ) {
+        if (slab) {
+            tiles[row][col] = new Tile(
+                    col * TILE_SIZE,
                     row * TILE_SIZE + TILE_SIZE - 20, TILE_SIZE, 20,
-                    passableFromBelow, color, img, true, this);
+                    passableFromBelow, color, img, true, this
+            );
         } else {
-            tiles[row][col] = new Tile(col * TILE_SIZE,
+            tiles[row][col] = new Tile(
+                    col * TILE_SIZE,
                     row * TILE_SIZE, TILE_SIZE, TILE_SIZE,
-                    passableFromBelow, color, img, true, this);
+                    passableFromBelow, color, img, true, this
+            );
         }
 
     }
@@ -192,11 +206,11 @@ public class World extends JPanel {
             boolean readingAdditionalData = false;
             ArrayList<Door> doors = new ArrayList<>();
             while ((line = br.readLine()) != null) {
-                if(line.contains("DATA")) {
+                if (line.contains("DATA")) {
                     readingAdditionalData = true;
                     continue;
                 }
-                if(!readingAdditionalData) {
+                if (!readingAdditionalData) {
                     for (int col = 0; col < WORLD_WIDTH / World.TILE_SIZE; col++) {
                         String[] rowData = line.split(" ");
                         Color color;
@@ -222,16 +236,22 @@ public class World extends JPanel {
                                 tiles[row][col] = flag;
                                 break;
                             case "D":
-                                DoubleJumpTile dj = new DoubleJumpTile(col * TILE_SIZE,
-                                        row * TILE_SIZE, this);
+                                DoubleJumpTile dj = new DoubleJumpTile(
+                                        col * TILE_SIZE,
+                                        row * TILE_SIZE, this
+                                );
                                 tiles[row][col] = dj;
                                 break;
                             case "A":
-                                DashTile dash = new DashTile(col * TILE_SIZE, row * TILE_SIZE, this);
+                                DashTile dash = new DashTile(
+                                        col * TILE_SIZE, row * TILE_SIZE, this
+                                );
                                 tiles[row][col] = dash;
                                 break;
                             case "U":
-                                UntetherTile unt = new UntetherTile(col * TILE_SIZE, row * TILE_SIZE, this);
+                                UntetherTile unt = new UntetherTile(
+                                        col * TILE_SIZE, row * TILE_SIZE, this
+                                );
                                 tiles[row][col] = unt;
                                 break;
                             default:
@@ -241,8 +261,8 @@ public class World extends JPanel {
                     row++;
                 } else {
                     String[] rowData = line.split(" ");
-                    int y =  Integer.parseInt(rowData[1])-1;
-                    int x =  Integer.parseInt(rowData[2])-1;
+                    int y = Integer.parseInt(rowData[1]) - 1;
+                    int x = Integer.parseInt(rowData[2]) - 1;
                     switch (rowData[0]) {
                         case "O":
                             Door door = new Door(x * TILE_SIZE, y * TILE_SIZE, this);
@@ -253,8 +273,10 @@ public class World extends JPanel {
                             tiles[y][x] = door;
                             break;
                         case "B":
-                            ButtonTile button = new ButtonTile(x * TILE_SIZE, y * TILE_SIZE,
-                                    new ArrayList<>(doors), this);
+                            ButtonTile button = new ButtonTile(
+                                    x * TILE_SIZE, y * TILE_SIZE,
+                                    new ArrayList<>(doors), this
+                            );
                             tiles[y][x] = button;
                             doors.clear();
                             break;
@@ -271,7 +293,7 @@ public class World extends JPanel {
 
     public void stopLevel(boolean won) {
         timer.stop();
-        if(won) {
+        if (won) {
             this.ui.displayWon();
         } else {
             this.ui.displayLost();
@@ -289,17 +311,17 @@ public class World extends JPanel {
         super.paintComponent(g);
         lava.draw(g);
         for (Tile[] tileRow : tiles) {
-            for(Tile tile : tileRow) {
-                if(tile != null) {
+            for (Tile tile : tileRow) {
+                if (tile != null) {
                     tile.draw(g);
                 }
             }
         }
         p1.draw(g);
         p2.draw(g);
-        switch(tetherColor) {
+        switch (tetherColor) {
             case "basic":
-                if(p1.getDist() >= World.TETHER_DIST - 20) {
+                if (p1.getDist() >= World.TETHER_DIST - 20) {
                     g.setColor(Color.RED);
                 } else {
                     g.setColor(Color.BLACK);
@@ -320,19 +342,22 @@ public class World extends JPanel {
         }
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3.0f));
-        g2d.drawLine((int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2 + 10,
-                (int) p2.getPx() + p2.getWidth() / 2, (int) p2.getPy() + p2.getHeight() / 2);
+        g2d.drawLine(
+                (int) p1.getPx() + p1.getWidth() / 2, (int) p1.getPy() + p1.getHeight() / 2 + 10,
+                (int) p2.getPx() + p2.getWidth() / 2, (int) p2.getPy() + p2.getHeight() / 2
+        );
     }
 
     public static void setTetherColor(String playerName) {
         System.out.println(tetherColor);
-        if (tetherColor.equals("both") &&  playerName.equals("P1basic")) {
+        if (tetherColor.equals("both") && playerName.equals("P1basic")) {
             tetherColor = "P2";
         } else if (tetherColor.equals("both") && playerName.equals("P2basic")) {
             tetherColor = "P1";
         } else if (tetherColor.equals("both")) {
             tetherColor = "both";
-        } else if(tetherColor.equals("P1") && playerName.equals("P2") || tetherColor.equals("P2") && playerName.equals("P1")) {
+        } else if (tetherColor.equals("P1") && playerName.equals("P2")
+                || tetherColor.equals("P2") && playerName.equals("P1")) {
             tetherColor = "both";
         } else if (playerName.equals("P1") || playerName.equals("P2")) {
             tetherColor = playerName;
@@ -348,7 +373,9 @@ public class World extends JPanel {
     }
 
     public void saveState() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("files/savedGameState.txt", true)
+        )) {
             writer.write("---WORLD---" + "\n");
             writer.write("tetherColor: " + tetherColor + "\n");
             writer.write("LavaX: " + lava.getPx() + "\n");
@@ -366,13 +393,17 @@ public class World extends JPanel {
         p2.saveState();
     }
 
-    public void loadP1Info(boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
-                           boolean untethered, HashSet<PowerUp> powerUps) {
+    public void loadP1Info(
+            boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
+            boolean untethered, HashSet<PowerUp> powerUps
+    ) {
         p1.loadInfo(isGrounded, doubleJump, dashAvailable, upReleased, untethered, powerUps);
     }
 
-    public void loadP2Info(boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
-                           boolean untethered, HashSet<PowerUp> powerUps) {
+    public void loadP2Info(
+            boolean isGrounded, boolean doubleJump, boolean dashAvailable, boolean upReleased,
+            boolean untethered, HashSet<PowerUp> powerUps
+    ) {
         p2.loadInfo(isGrounded, doubleJump, dashAvailable, upReleased, untethered, powerUps);
     }
 

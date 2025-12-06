@@ -24,9 +24,13 @@ public class TitleScreen extends JPanel {
         setLayout(null);
         setBounds(0, 0, 1000, 500);
         bgImage = SpriteSheetLoader.loadImage("files/Blue.png");
-        texture = new TexturePaint(bgImage, new Rectangle(0, 0, bgImage.getWidth(), bgImage.getHeight()));
-        play_button = new UIButton(400, 200, 200, 200, 10,
-                SpriteSheetLoader.loadImage("files/Play.png"), null);
+        texture = new TexturePaint(
+                bgImage, new Rectangle(0, 0, bgImage.getWidth(), bgImage.getHeight())
+        );
+        play_button = new UIButton(
+                400, 200, 200, 200, 10,
+                SpriteSheetLoader.loadImage("files/Play.png"), null
+        );
         play_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -48,15 +52,20 @@ public class TitleScreen extends JPanel {
         instructions_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                screenManager.setScreen(ScreenManager.Screen.INSTRUCTIONS_SCREEN);
+                // screenManager.setScreen(ScreenManager.Screen.INSTRUCTIONS_SCREEN);
                 System.out.println("instructions");
-                JOptionPane.showMessageDialog(TitleScreen.this,
+                JOptionPane.showMessageDialog(
+                        TitleScreen.this,
                         "Welcome to Tethered!\n" +
                                 "\n" +
-                                "This is a 2-player hotseat platformer game, where you and a friend will race \n" +
-                                "through a series of difficult levels, trying to avoid the ever encroaching wall \n" +
-                                "of lava behind you and the countless spikes in your path. The twist is that both \n" +
-                                "players are tethered together, so don’t get too far apart! One player falling may \n" +
+                                "This is a 2-player hotseat platformer game, where you and a friend will race \n"
+                                +
+                                "through a series of difficult levels, trying to avoid the ever encroaching wall \n"
+                                +
+                                "of lava behind you and the countless spikes in your path. The twist is that both \n"
+                                +
+                                "players are tethered together, so don’t get too far apart! One player falling may \n"
+                                +
                                 "bring the other player down as well. \n" +
                                 "\n" +
                                 "Player 1 will use WASD to move\n" +
@@ -66,12 +75,14 @@ public class TitleScreen extends JPanel {
                                 "- Press red buttons to open stone doors! \n" +
                                 "- Collect power ups!\n" +
                                 "   - Jump once while in the air using Double Jump Power Up\n" +
-                                "   - Player 1 can press E and Player 2 can press M to dash using " +
+                                "   - Player 1 can press E and Player 2 can press M to dash using "
+                                +
                                 "the Dash Power Up\n" +
-                                "   - Players can move without being pulled back by the tether using the Untether " +
+                                "   - Players can move without being pulled back by the tether using the Untether "
+                                +
                                 "Power Up"
 
-                        );
+                );
             }
 
             @Override

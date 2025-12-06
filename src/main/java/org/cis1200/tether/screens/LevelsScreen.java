@@ -22,18 +22,28 @@ public class LevelsScreen extends JPanel {
         setLayout(null);
         setBounds(0, 0, 1000, 500);
         bgImage = SpriteSheetLoader.loadImage("files/Blue.png");
-        texture = new TexturePaint(bgImage, new Rectangle(0, 0, bgImage.getWidth(), bgImage.getHeight()));
-        UIButton levelOneButton = new UIButton(250, 200, 100, 100, 5,
-                SpriteSheetLoader.loadImage("files/01.png"), null);
-        UIButton levelTwoButton = new UIButton(450, 200, 100, 100, 5,
-                SpriteSheetLoader.loadImage("files/02.png"), null);
-        UIButton levelThreeButton = new UIButton(650, 200, 100, 100, 5,
-                SpriteSheetLoader.loadImage("files/03.png"), null);
+        texture = new TexturePaint(
+                bgImage, new Rectangle(0, 0, bgImage.getWidth(), bgImage.getHeight())
+        );
+        UIButton levelOneButton = new UIButton(
+                250, 200, 100, 100, 5,
+                SpriteSheetLoader.loadImage("files/01.png"), null
+        );
+        UIButton levelTwoButton = new UIButton(
+                450, 200, 100, 100, 5,
+                SpriteSheetLoader.loadImage("files/02.png"), null
+        );
+        UIButton levelThreeButton = new UIButton(
+                650, 200, 100, 100, 5,
+                SpriteSheetLoader.loadImage("files/03.png"), null
+        );
         setupLevelButton(levelOneButton, ScreenManager.Screen.LEVEL_1);
         setupLevelButton(levelTwoButton, ScreenManager.Screen.LEVEL_2);
         setupLevelButton(levelThreeButton, ScreenManager.Screen.LEVEL_3);
-        UIButton loadFromSaveButton = new UIButton(300, 400, 400, 50, 5, null,
-                "Load From Save");
+        UIButton loadFromSaveButton = new UIButton(
+                300, 400, 400, 50, 5, null,
+                "Load From Save"
+        );
         loadFromSaveButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

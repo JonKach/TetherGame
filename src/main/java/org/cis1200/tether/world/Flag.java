@@ -11,13 +11,17 @@ import java.util.HashSet;
 public class Flag extends Tile {
 
     public Flag(int x, int y, World world) {
-        super(x + 15, y + World.TILE_SIZE, World.TILE_SIZE, World.TILE_SIZE, false,
-                new Color(0, 255, 0), Sprites.flagSprite, true, world);
+        super(
+                x + 15, y + World.TILE_SIZE, World.TILE_SIZE, World.TILE_SIZE, false,
+                new Color(0, 255, 0), Sprites.flagSprite, true, world
+        );
     }
 
     @Override
-    public Collision collidesWith(double playerX, double playerY, int playerWidth, int playerHeight,
-                                  double vx, double vy) {
+    public Collision collidesWith(
+            double playerX, double playerY, int playerWidth, int playerHeight,
+            double vx, double vy
+    ) {
         playerX -= vx;
         playerY -= vy;
 
@@ -26,15 +30,17 @@ public class Flag extends Tile {
         int boxLeft = getX() + 5;
         int boxRight = getX() + getWidth() - 5;
 
-        boolean xCollided =  playerX + playerWidth >= boxLeft && playerX <= boxRight;
+        boolean xCollided = playerX + playerWidth >= boxLeft && playerX <= boxRight;
         boolean yCollided = playerY + playerHeight >= boxTop && playerY <= boxBottom;
 
-        return new Collision(xCollided && yCollided, false, false,
-                false, false, false);
+        return new Collision(
+                xCollided && yCollided, false, false,
+                false, false, false
+        );
     }
 
     @Override
-    public void onCollide(Direction[] colDirection,  HashSet<PowerUp> playerPowerUps) {
+    public void onCollide(Direction[] colDirection, HashSet<PowerUp> playerPowerUps) {
         getWorld().stopLevel(true);
     }
 }

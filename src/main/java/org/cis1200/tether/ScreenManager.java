@@ -75,8 +75,10 @@ public class ScreenManager extends JPanel {
         repaint();
     }
 
-    private void newLevel(String filename, double p1x, double p1y, double p2x, double p2y,
-                          double lavaX, boolean unlockedDoors) {
+    private void newLevel(
+            String filename, double p1x, double p1y, double p2x, double p2y,
+            double lavaX, boolean unlockedDoors
+    ) {
         currScreen = new BackgroundPanel(BackgroundPanel.Background.BROWN);
         currScreen.setLayout(new OverlayLayout(currScreen));
         currentScreenEnum = Screen.LEVEL_1;
@@ -131,14 +133,18 @@ public class ScreenManager extends JPanel {
     }
 
     public void saveGameState() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("files/savedGameState.txt")
+        )) {
             writer.write("");
             writer.close();
             System.out.println("Content successfully cleared of " + "savedGameState.txt");
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/savedGameState.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("files/savedGameState.txt", true)
+        )) {
             writer.write("---SCREEN---" + "\n");
             writer.write("CurrentScreen: " + currentScreenEnum + "\n");
             writer.close();
@@ -157,11 +163,13 @@ public class ScreenManager extends JPanel {
 
     public void loadSave() {
         HashMap<String, String> gameData = new HashMap<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("files/savedGameState.txt"))) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("files/savedGameState.txt")
+        )) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(" ");
-                if(data.length > 1) {
+                if (data.length > 1) {
                     gameData.put(data[0], data[1]);
                 }
             }
@@ -177,7 +185,7 @@ public class ScreenManager extends JPanel {
         double p2y = Double.parseDouble(gameData.get("P2Y:"));
         double initLavaX = Double.parseDouble(gameData.get("LavaX:"));
         boolean unlockedDoors = Boolean.parseBoolean(gameData.get("unlockedDoors:"));
-        switch(gameData.get("CurrentScreen:")) {
+        switch (gameData.get("CurrentScreen:")) {
             case "LEVEL_1":
                 newLevel("files/level_1.txt", p1x, p1y, p2x, p2y, initLavaX, unlockedDoors);
                 currentScreenEnum = Screen.LEVEL_1;
@@ -191,7 +199,9 @@ public class ScreenManager extends JPanel {
                 currentScreenEnum = Screen.LEVEL_3;
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + gameData.get("Current Screen:"));
+                throw new IllegalStateException(
+                        "Unexpected value: " + gameData.get("Current Screen:")
+                );
         }
 
         currentUIView.setExistingDuration(gameData.get("Duration:"));
