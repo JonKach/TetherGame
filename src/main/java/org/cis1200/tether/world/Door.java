@@ -17,7 +17,7 @@ public class Door extends Tile {
 
     @Override
     public void onCollide(Direction[] colDirection, Player player) {
-        // does nothing on collision, maybe add a message later
+        // does nothing on collision
     }
 
     public void unlockDoor() {

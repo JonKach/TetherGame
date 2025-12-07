@@ -21,6 +21,7 @@ public class RunTether implements Runnable {
         final JPanel status_panel = new StatusPanel();
         frame.add(status_panel, BorderLayout.SOUTH);
 
+        // Game display panel
         currPanel = new ScreenManager();
 
         frame.add(currPanel, BorderLayout.CENTER);

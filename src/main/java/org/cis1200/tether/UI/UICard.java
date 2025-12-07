@@ -81,7 +81,6 @@ public class UICard extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 32));
 
-        // Use FontMetrics to calculate centering
         FontMetrics fm = g.getFontMetrics();
         int textX = (getWidth() - fm.stringWidth(this.sentence)) / 2;
         int textY = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();

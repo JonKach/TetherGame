@@ -3,7 +3,6 @@ package org.cis1200.tether.utility;
 public class Collision {
 
     boolean collided;
-    // boolean sideCollided;
     boolean leftCollided;
     boolean rightCollided;
     boolean topCollided;
@@ -17,7 +16,6 @@ public class Collision {
             boolean debug
     ) {
         this.collided = collided;
-        // this.sideCollided = sideCollided;
         this.leftCollided = leftCollided;
         this.rightCollided = rightCollided;
         this.topCollided = topCollided;

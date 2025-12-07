@@ -69,9 +69,4 @@ public class UIButton extends JPanel {
         }
         repaint();
     }
-
-    // @Override
-    // public Dimension getPreferredSize() {
-    // return new Dimension(width, height);
-    // }
 }

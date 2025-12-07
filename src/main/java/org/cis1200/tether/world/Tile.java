@@ -74,8 +74,8 @@ public class Tile {
 
         // if side collided calc the distance from player left edge to block right edge
         // and play right edge to block left
-        // whichever is less its that kind of collsion
-        // do a simialr thing for y collision, now we will know what type of collision,
+        // whichever is less its that kind of collision
+        // do a similar thing for y collision, now we will know what type of collision,
         // use that to solve the other issue
         // which is that tether nudges to the right while still be in contact with left
         // wall, so we think we can move left.
@@ -99,9 +99,6 @@ public class Tile {
                 topCollided, false, false
         );
 
-        // return new Collision(xCollided && yCollided, sideCollided, isGround ||
-        // collDirection[1] == Direction.DOWN, biggerXCollided && getColor().equals(new
-        // Color(210, 180, 140)));
     }
 
     public void setVisible(boolean visible) {
@@ -109,8 +106,7 @@ public class Tile {
     }
 
     public void onCollide(Direction[] colDirection, Player player) {
-        // does nothing by default, for dynamic effects (button pushing, doors, etc.)
-        // and powerup collection
+        // does nothing by default, override for dynamic effects (button pushing, doors, etc.)
     }
 
     public int getX() {

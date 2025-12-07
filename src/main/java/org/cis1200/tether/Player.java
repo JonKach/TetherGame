@@ -119,12 +119,9 @@ public class Player extends PhysicsObject {
         Collision xCollision = collisionCheck(
                 futureX, getPy(), getWidth(), getHeight(), getVx(), 0
         );
-        // boolean sideCollided = xCollision.getSideCollided();
         boolean leftCollided = xCollision.isLeftCollided();
         boolean rightCollided = xCollision.isRightCollided();
-        // debug = oldXDirection.toString();
-        // (direction[0] == Direction.LEFT || oldXDirection == Direction.LEFT) &&
-        // sideCollided
+
         if (leftCollided) {
             setVx(0);
             setMotionRestrictions(true, false);
@@ -144,7 +141,6 @@ public class Player extends PhysicsObject {
 
         if (collided) {
             debug = Boolean.toString(topCollided);
-            // direction[1] == Direction.DOWN
             if (direction[1] == Direction.DOWN || direction[1] == Direction.STANDSTILL) {
                 setVy(0);
                 this.isGrounded = true;
@@ -159,9 +155,6 @@ public class Player extends PhysicsObject {
             setApplyGravity(true);
         }
 
-        // for (PowerUp powerUp : powerUps) {
-        //
-        // }
         if (ui != null) {
             ui.displayPowerUps(powerUps, playerName);
         }
@@ -176,7 +169,6 @@ public class Player extends PhysicsObject {
         int gridWidth = (getWidth() / World.TILE_SIZE) + 1;
         int gridHeight = (getHeight() / World.TILE_SIZE) + 1;
         boolean collided = false;
-        // boolean sideCollided = false;
         boolean leftCollided = false;
         boolean rightCollided = false;
         boolean topCollided = false;
@@ -193,7 +185,6 @@ public class Player extends PhysicsObject {
                             width, height, vx, vy
                     );
                     collided = collision.isCollided() || collided;
-                    // sideCollided = collision.getSideCollided() || sideCollided;
                     leftCollided = collision.isLeftCollided() || leftCollided;
                     rightCollided = collision.isRightCollided() || rightCollided;
                     debug = collision.getDebug() || debug;
