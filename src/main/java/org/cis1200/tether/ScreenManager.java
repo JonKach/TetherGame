@@ -220,16 +220,16 @@ public class ScreenManager extends JPanel {
                 Boolean.parseBoolean(gameData.get("P1isGrounded:")),
                 Boolean.parseBoolean(gameData.get("P1isOnDoubleJump:")),
                 Boolean.parseBoolean(gameData.get("P1dashAvailable:")),
-                Boolean.parseBoolean(gameData.get("upReleased:")),
-                Boolean.parseBoolean(gameData.get("isUntethered")),
+                Boolean.parseBoolean(gameData.get("P1upReleased:")),
+                Boolean.parseBoolean(gameData.get("P1isUntethered")),
                 p1PowerUps
         );
         currentWorld.loadP2Info(
-                Boolean.parseBoolean(gameData.get("P1isGrounded:")),
-                Boolean.parseBoolean(gameData.get("P1isOnDoubleJump:")),
-                Boolean.parseBoolean(gameData.get("P1dashAvailable:")),
-                Boolean.parseBoolean(gameData.get("upReleased:")),
-                Boolean.parseBoolean(gameData.get("isUntethered")),
+                Boolean.parseBoolean(gameData.get("P2isGrounded:")),
+                Boolean.parseBoolean(gameData.get("P2isOnDoubleJump:")),
+                Boolean.parseBoolean(gameData.get("P2dashAvailable:")),
+                Boolean.parseBoolean(gameData.get("P2upReleased:")),
+                Boolean.parseBoolean(gameData.get("P2isUntethered:")),
                 p2PowerUps
         );
         this.add(currScreen, BorderLayout.CENTER);
